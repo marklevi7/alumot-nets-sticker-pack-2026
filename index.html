@@ -272,7 +272,7 @@
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v23</div>
+    <div class="version" aria-hidden="true">v24</div>
     <script>
       (function () {
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -282,10 +282,13 @@
         var FONT_SIZE = 14;
         var chars = 'אבגדהוזחטיכלמנסעפצקרשת0123456789{}<>/'.split('');
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        var WAVE_INTERVAL_MS = 6000;
-        var COL_DENSITY = 0.45; // fraction of columns spawned per wave
+        var ARC_DEPTH = 240;          // how far the middle dips below the edges
+        var SPEED = 3.6;              // px per frame the arc descends
+        var IDLE_MS = 4200;           // pause between waves
         var cols = 0;
-        var drops = [];
+        var waveY = -ARC_DEPTH;
+        var waveActive = true;
+        var waveTimer = null;
 
         function resize() {
           canvas.width = innerWidth * dpr;
@@ -296,38 +299,46 @@
           cols = Math.floor(innerWidth / FONT_SIZE);
         }
 
+        function arcOffset(xNorm) {
+          // Parabola: 0 at edges, ARC_DEPTH at the middle.
+          var t = xNorm - 0.5;
+          return ARC_DEPTH * (1 - 4 * t * t);
+        }
+
         function startWave() {
-          drops = [];
-          for (var i = 0; i < cols; i++) {
-            if (Math.random() > COL_DENSITY) continue;
-            drops.push({
-              x: i * FONT_SIZE + FONT_SIZE / 2,
-              y: -Math.random() * 240,
-              speed: 2.0 + Math.random() * 3.5,
-            });
-          }
+          waveY = -ARC_DEPTH - FONT_SIZE * 4;
+          waveActive = true;
         }
 
         function draw() {
-          // Slow fade so each char leaves a trailing tail behind.
           ctx.save();
           ctx.globalCompositeOperation = 'destination-out';
-          ctx.fillStyle = 'rgba(0,0,0,0.055)';
+          ctx.fillStyle = 'rgba(0,0,0,0.04)';
           ctx.fillRect(0, 0, innerWidth, innerHeight);
           ctx.restore();
 
-          ctx.font = FONT_SIZE + 'px ui-monospace, "SF Mono", Menlo, monospace';
-          ctx.textAlign = 'center';
-          for (var i = 0; i < drops.length; i++) {
-            var d = drops[i];
-            if (d.y > -FONT_SIZE && d.y < innerHeight + FONT_SIZE) {
-              var c = chars[Math.floor(Math.random() * chars.length)];
-              ctx.fillStyle = 'rgba(190, 145, 235, 0.8)';
-              ctx.fillText(c, d.x, d.y);
-              ctx.fillStyle = 'rgba(139, 95, 191, 0.32)';
-              ctx.fillText(chars[Math.floor(Math.random() * chars.length)], d.x, d.y - FONT_SIZE);
+          if (waveActive) {
+            ctx.font = FONT_SIZE + 'px ui-monospace, "SF Mono", Menlo, monospace';
+            ctx.textAlign = 'center';
+            for (var i = 0; i < cols; i++) {
+              var xNorm = cols > 1 ? i / (cols - 1) : 0.5;
+              var headY = waveY + arcOffset(xNorm);
+              if (headY > -FONT_SIZE && headY < innerHeight + FONT_SIZE) {
+                var x = i * FONT_SIZE + FONT_SIZE / 2;
+                var c = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillStyle = 'rgba(190, 145, 235, 0.65)';
+                ctx.fillText(c, x, headY);
+                ctx.fillStyle = 'rgba(139, 95, 191, 0.30)';
+                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, headY - FONT_SIZE);
+              }
             }
-            d.y += d.speed;
+
+            waveY += SPEED;
+            if (waveY > innerHeight + 40) {
+              waveActive = false;
+              clearTimeout(waveTimer);
+              waveTimer = setTimeout(startWave, IDLE_MS);
+            }
           }
 
           requestAnimationFrame(draw);
@@ -337,7 +348,6 @@
         addEventListener('resize', resize);
         draw();
         startWave();
-        setInterval(startWave, WAVE_INTERVAL_MS);
       })();
     </script>
   </body>
