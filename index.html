@@ -34,9 +34,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: max(96px, calc(env(safe-area-inset-top) + 76px)) 20px max(32px, env(safe-area-inset-bottom));
+        padding: max(116px, calc(env(safe-area-inset-top) + 96px)) 20px max(32px, env(safe-area-inset-bottom));
         background:
-          radial-gradient(ellipse 70% 45% at 50% -5%, rgba(139, 95, 191, 0.22), transparent 70%),
+          radial-gradient(ellipse 70% 45% at 50% -5%, rgba(139, 95, 191, 0.44), transparent 70%),
           var(--bg);
       }
 
@@ -51,7 +51,7 @@
 
       .brand-bar {
         position: fixed;
-        top: max(20px, env(safe-area-inset-top));
+        top: max(44px, calc(env(safe-area-inset-top) + 28px));
         inset-inline: 0;
         display: flex;
         justify-content: center;
@@ -262,6 +262,6 @@
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v14</div>
+    <div class="version" aria-hidden="true">v15</div>
   </body>
 </html>
