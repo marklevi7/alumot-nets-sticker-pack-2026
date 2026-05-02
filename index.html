@@ -9,10 +9,12 @@
       :root {
         --bg: #000000;
         --fg: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.22);
-        --accent: #6b3f96;
+        --muted: rgba(255, 255, 255, 0.55);
+        --dim: rgba(255, 255, 255, 0.22);
+        --accent: #8b5fbf;
+        --accent-soft: rgba(139, 95, 191, 0.6);
         --hairline: rgba(255, 255, 255, 0.07);
-        --hairline-strong: rgba(255, 255, 255, 0.14);
+        --hairline-strong: rgba(255, 255, 255, 0.16);
       }
 
       * { box-sizing: border-box; }
@@ -20,7 +22,6 @@
       html, body {
         margin: 0;
         padding: 0;
-        background: var(--bg);
         color: var(--fg);
         font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -33,16 +34,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
+        padding: max(32px, env(safe-area-inset-top)) 20px max(32px, env(safe-area-inset-bottom));
+        background:
+          radial-gradient(ellipse 70% 45% at 50% -5%, rgba(139, 95, 191, 0.22), transparent 70%),
+          var(--bg);
       }
 
       .card {
         width: 100%;
-        max-width: 380px;
+        max-width: 400px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 32px;
+        gap: 24px;
       }
 
       .logo {
@@ -51,36 +55,76 @@
         display: block;
       }
 
+      .divider {
+        width: 36px;
+        height: 2px;
+        background: var(--accent);
+        border-radius: 2px;
+        opacity: 0.85;
+      }
+
+      .description {
+        font-size: 13.5px;
+        line-height: 1.65;
+        color: var(--muted);
+        text-align: center;
+        margin: 0;
+      }
+
+      .description p {
+        margin: 0 0 10px 0;
+      }
+
+      .description p:last-child {
+        margin-bottom: 0;
+      }
+
       .links {
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        margin-top: 4px;
       }
 
       .link {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 52px;
-        padding: 14px 20px;
+        min-height: 54px;
+        padding: 14px 52px;
         border-radius: 12px;
-        background: transparent;
+        background: rgba(255, 255, 255, 0.015);
         color: var(--fg);
         border: 1px solid var(--hairline);
         text-decoration: none;
-        font-size: 16px;
+        font-size: 15.5px;
         font-weight: 500;
         letter-spacing: 0.2px;
-        transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.05s ease;
+        transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.05s ease;
       }
 
-      .link:hover { border-color: var(--hairline-strong); }
+      .link__icon {
+        position: absolute;
+        inset-inline-start: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        color: var(--accent);
+        flex-shrink: 0;
+      }
+
+      .link:hover {
+        border-color: var(--accent-soft);
+        background: rgba(139, 95, 191, 0.06);
+      }
       .link:active { transform: scale(0.99); }
       .link:focus-visible {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 0 0 1px rgba(107, 63, 150, 0.5);
+        box-shadow: 0 0 0 1px rgba(139, 95, 191, 0.5);
       }
 
       .version {
@@ -88,7 +132,7 @@
         bottom: 12px;
         left: 12px;
         font-size: 10px;
-        color: var(--muted);
+        color: var(--accent-soft);
         letter-spacing: 1px;
         font-variant-numeric: tabular-nums;
         pointer-events: none;
@@ -99,18 +143,39 @@
     <main class="card">
       <img class="logo" src="assets/logo.svg" alt="אלומות" onerror="this.style.display='none'">
 
+      <span class="divider" aria-hidden="true"></span>
+
+      <div class="description">
+        <p>האפליקציה מאפשרת לכוחות אזרחיים בשטח לתקשר בקלות ולדווח על אירועים בסביבתם כגון חשוד, אזור מסוכן וקריאה לעזרה.</p>
+        <p>אזרחים הרוצים להתחבר לאפליקציה נדרשים ליצור קשר עם החמל שאליהם הם משוייכים או למפקד הכיתה שלהם.</p>
+        <p>המטרה העיקרית של האפליקציה היא לזהות את מיקום הכוחות בשטח ותפקידם על מנת למנוע מצבים של ירי דו צדדי ולהגיב במהירות לקריאות מצוקה.</p>
+      </div>
+
       <nav class="links" aria-label="קישורים">
-        <a class="link" href="https://example.com/" target="_blank" rel="noopener">
-          אתר
+        <a class="link" href="https://nodoots.web.app/map" target="_blank" rel="noopener">
+          <svg class="link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 1 1 13 0c0 5-6.5 11-6.5 11z"/>
+            <circle cx="12" cy="10" r="2.4"/>
+          </svg>
+          <span>מפה — גרסת ווב</span>
         </a>
         <a class="link" href="https://apps.apple.com/il/app/nets/id6470527072" target="_blank" rel="noopener">
-          App Store
+          <svg class="link__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16.36 12.91c-.02-2.32 1.9-3.43 1.99-3.49-1.08-1.58-2.77-1.8-3.37-1.83-1.43-.14-2.8.84-3.53.84-.74 0-1.85-.82-3.05-.8-1.57.02-3.02.91-3.83 2.31-1.63 2.83-.42 7.02 1.17 9.32.78 1.13 1.7 2.39 2.91 2.34 1.17-.05 1.62-.76 3.04-.76 1.42 0 1.82.76 3.05.74 1.26-.02 2.06-1.14 2.83-2.27.89-1.31 1.26-2.58 1.28-2.65-.03-.01-2.46-.95-2.49-3.75zM14.04 5.92c.65-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.6.69-1.12 1.79-.98 2.85 1.04.08 2.1-.53 2.74-1.31z"/>
+          </svg>
+          <span>App Store</span>
         </a>
         <a class="link" href="https://play.google.com/store/apps/details?id=gov.idf.nodoots&amp;pcampaignid=web_share" target="_blank" rel="noopener">
-          Google Play
+          <svg class="link__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4.5 3.4c-.31.27-.5.7-.5 1.27v14.66c0 .57.19 1 .5 1.27l8.06-8.6L4.5 3.4z"/>
+            <path d="M15.5 9.4 5.4 3.05c-.36-.21-.7-.24-.97-.07l8.13 8.62L15.5 9.4z"/>
+            <path d="m12.56 12 -8.13 8.62c.27.18.61.14.97-.07L15.5 14.2 12.56 12z"/>
+            <path d="m18.7 11.05 -3.2-1.85-2.94 2.8 2.94 2.8 3.21-1.86c.92-.53.92-1.36-.01-1.89z"/>
+          </svg>
+          <span>Google Play</span>
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v6</div>
+    <div class="version" aria-hidden="true">v7</div>
   </body>
 </html>
