@@ -35,7 +35,9 @@
         align-items: center;
         justify-content: center;
         padding: max(116px, calc(env(safe-area-inset-top) + 96px)) 20px max(32px, env(safe-area-inset-bottom));
-        background: var(--bg);
+        background:
+          radial-gradient(ellipse 70% 45% at 50% -5%, rgba(139, 95, 191, 0.44), transparent 70%),
+          var(--bg);
       }
 
       .card {
@@ -169,20 +171,9 @@
         pointer-events: none;
       }
 
-      .matrix-bg {
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        pointer-events: none;
-      }
-
-      .card { position: relative; z-index: 1; }
     </style>
   </head>
   <body>
-    <canvas class="matrix-bg" aria-hidden="true"></canvas>
     <header class="brand-bar">
       <svg class="brand-logo" viewBox="0 0 1652 479" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="אלומות">
       <path d="M1484 479C1487.5 476.979 1533.88 449.427 1577.06 422.481C1627.69 390.883 1652 339.619 1652 279.936C1652 170.408 1652 19.5 1652 19.5V18.0002C1652 8.61127 1644.39 1 1635 1H1484C1484 1 1484 394 1484 479Z" fill="white"/>
@@ -272,83 +263,6 @@
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v24</div>
-    <script>
-      (function () {
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        var canvas = document.querySelector('.matrix-bg');
-        var ctx = canvas.getContext('2d');
-        var FONT_SIZE = 14;
-        var chars = 'אבגדהוזחטיכלמנסעפצקרשת0123456789{}<>/'.split('');
-        var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        var ARC_DEPTH = 240;          // how far the middle dips below the edges
-        var SPEED = 3.6;              // px per frame the arc descends
-        var IDLE_MS = 4200;           // pause between waves
-        var cols = 0;
-        var waveY = -ARC_DEPTH;
-        var waveActive = true;
-        var waveTimer = null;
-
-        function resize() {
-          canvas.width = innerWidth * dpr;
-          canvas.height = innerHeight * dpr;
-          canvas.style.width = innerWidth + 'px';
-          canvas.style.height = innerHeight + 'px';
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          cols = Math.floor(innerWidth / FONT_SIZE);
-        }
-
-        function arcOffset(xNorm) {
-          // Parabola: 0 at edges, ARC_DEPTH at the middle.
-          var t = xNorm - 0.5;
-          return ARC_DEPTH * (1 - 4 * t * t);
-        }
-
-        function startWave() {
-          waveY = -ARC_DEPTH - FONT_SIZE * 4;
-          waveActive = true;
-        }
-
-        function draw() {
-          ctx.save();
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.fillStyle = 'rgba(0,0,0,0.04)';
-          ctx.fillRect(0, 0, innerWidth, innerHeight);
-          ctx.restore();
-
-          if (waveActive) {
-            ctx.font = FONT_SIZE + 'px ui-monospace, "SF Mono", Menlo, monospace';
-            ctx.textAlign = 'center';
-            for (var i = 0; i < cols; i++) {
-              var xNorm = cols > 1 ? i / (cols - 1) : 0.5;
-              var headY = waveY + arcOffset(xNorm);
-              if (headY > -FONT_SIZE && headY < innerHeight + FONT_SIZE) {
-                var x = i * FONT_SIZE + FONT_SIZE / 2;
-                var c = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillStyle = 'rgba(190, 145, 235, 0.65)';
-                ctx.fillText(c, x, headY);
-                ctx.fillStyle = 'rgba(139, 95, 191, 0.30)';
-                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, headY - FONT_SIZE);
-              }
-            }
-
-            waveY += SPEED;
-            if (waveY > innerHeight + 40) {
-              waveActive = false;
-              clearTimeout(waveTimer);
-              waveTimer = setTimeout(startWave, IDLE_MS);
-            }
-          }
-
-          requestAnimationFrame(draw);
-        }
-
-        resize();
-        addEventListener('resize', resize);
-        draw();
-        startWave();
-      })();
-    </script>
+    <div class="version" aria-hidden="true">v25</div>
   </body>
 </html>
