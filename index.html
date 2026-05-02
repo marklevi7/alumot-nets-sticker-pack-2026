@@ -4,18 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Alumot / Nets</title>
-    <meta name="theme-color" content="#241b3a">
+    <meta name="theme-color" content="#000000">
     <style>
       :root {
-        --bg: #241b3a;
+        --bg: #000000;
         --fg: #ffffff;
-        --muted: rgba(255, 255, 255, 0.65);
-        --brand: #7e57a8;
-        --brand-dark: #5e3d83;
-        --button-bg: #7e57a8;
-        --button-fg: #ffffff;
-        --button-border: transparent;
-        --button-bg-hover: #9670bf;
+        --muted: rgba(255, 255, 255, 0.4);
+        --accent: #7e57a8;
+        --hairline: rgba(255, 255, 255, 0.14);
+        --hairline-strong: rgba(255, 255, 255, 0.22);
       }
 
       * { box-sizing: border-box; }
@@ -41,34 +38,24 @@
 
       .card {
         width: 100%;
-        max-width: 420px;
+        max-width: 380px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 28px;
+        gap: 32px;
       }
 
       .logo {
-        width: 150px;
+        width: 140px;
         height: auto;
         display: block;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: 0.2px;
-        text-align: center;
-        color: var(--fg);
       }
 
       .links {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        margin-top: 4px;
+        gap: 10px;
       }
 
       .link {
@@ -77,27 +64,32 @@
         justify-content: center;
         min-height: 52px;
         padding: 14px 20px;
-        border-radius: 14px;
-        background: var(--button-bg);
-        color: var(--button-fg);
-        border: 1px solid var(--button-border);
+        border-radius: 12px;
+        background: transparent;
+        color: var(--fg);
+        border: 1px solid var(--hairline);
         text-decoration: none;
-        font-size: 17px;
-        font-weight: 600;
-        transition: background-color 0.15s ease, transform 0.05s ease;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.2px;
+        transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.05s ease;
       }
 
-      .link:hover { background: var(--button-bg-hover); }
-      .link:active { transform: scale(0.98); }
-      .link:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+      .link:hover { border-color: var(--accent); }
+      .link:active { transform: scale(0.99); }
+      .link:focus-visible {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(126, 87, 168, 0.35);
+      }
 
       .version {
         position: fixed;
         bottom: 12px;
         left: 12px;
-        font-size: 11px;
+        font-size: 10px;
         color: var(--muted);
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
         font-variant-numeric: tabular-nums;
         pointer-events: none;
       }
@@ -106,8 +98,6 @@
   <body>
     <main class="card">
       <img class="logo" src="assets/logo.svg" alt="אלומות" onerror="this.style.display='none'">
-
-      <h1>Alumot / Nets</h1>
 
       <nav class="links" aria-label="קישורים">
         <a class="link" href="https://example.com/" target="_blank" rel="noopener">
@@ -121,6 +111,6 @@
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v4</div>
+    <div class="version" aria-hidden="true">v5</div>
   </body>
 </html>
