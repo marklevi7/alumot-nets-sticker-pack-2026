@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Alumot / Nets</title>
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#241b3a">
     <style>
       :root {
-        --bg: #ffffff;
-        --fg: #241b3a;
-        --muted: rgba(36, 27, 58, 0.6);
+        --bg: #241b3a;
+        --fg: #ffffff;
+        --muted: rgba(255, 255, 255, 0.65);
         --brand: #7e57a8;
         --brand-dark: #5e3d83;
         --button-bg: #7e57a8;
         --button-fg: #ffffff;
         --button-border: transparent;
-        --button-bg-hover: #5e3d83;
+        --button-bg-hover: #9670bf;
       }
 
       * { box-sizing: border-box; }
@@ -49,9 +49,10 @@
       }
 
       .logo {
-        width: 180px;
+        width: 160px;
         height: auto;
         display: block;
+        filter: invert(1);
       }
 
       h1 {
@@ -94,7 +95,7 @@
   </head>
   <body>
     <main class="card">
-      <img class="logo" src="assets/logo.svg" alt="אלומות">
+      <img class="logo" src="assets/logo.svg" alt="אלומות" onerror="this.style.display='none'">
 
       <h1>Alumot / Nets</h1>
 
