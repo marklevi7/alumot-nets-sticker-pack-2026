@@ -91,6 +91,17 @@
       .link:hover { background: var(--button-bg-hover); }
       .link:active { transform: scale(0.98); }
       .link:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+
+      .version {
+        position: fixed;
+        bottom: 12px;
+        left: 12px;
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+        font-variant-numeric: tabular-nums;
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
@@ -111,5 +122,6 @@
         </a>
       </nav>
     </main>
+    <div class="version" aria-hidden="true">v2</div>
   </body>
 </html>
