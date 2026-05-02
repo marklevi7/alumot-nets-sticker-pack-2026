@@ -169,45 +169,20 @@
         pointer-events: none;
       }
 
-      .code-wave {
+      .matrix-bg {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 0;
+        inset: 0;
+        width: 100%;
+        height: 100%;
         z-index: 0;
         pointer-events: none;
-        transform: translate3d(0, -120px, 0);
-        will-change: transform;
-      }
-
-      .code-wave.run {
-        animation: codeWaveFall 4.2s linear forwards;
-      }
-
-      @keyframes codeWaveFall {
-        from { transform: translate3d(0, -120px, 0); }
-        to   { transform: translate3d(0, calc(100vh + 120px), 0); }
-      }
-
-      .code-wave span {
-        position: absolute;
-        font: 14px ui-monospace, "SF Mono", Menlo, monospace;
-        color: rgba(190, 145, 235, 0.85);
-        text-align: center;
-        transform: translateX(-50%);
-        white-space: nowrap;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .code-wave { display: none; }
       }
 
       .card { position: relative; z-index: 1; }
     </style>
   </head>
   <body>
-    <div class="code-wave" aria-hidden="true"></div>
+    <canvas class="matrix-bg" aria-hidden="true"></canvas>
     <header class="brand-bar">
       <svg class="brand-logo" viewBox="0 0 1652 479" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="אלומות">
       <path d="M1484 479C1487.5 476.979 1533.88 449.427 1577.06 422.481C1627.69 390.883 1652 339.619 1652 279.936C1652 170.408 1652 19.5 1652 19.5V18.0002C1652 8.61127 1644.39 1 1635 1H1484C1484 1 1484 394 1484 479Z" fill="white"/>
@@ -297,50 +272,72 @@
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v22</div>
+    <div class="version" aria-hidden="true">v23</div>
     <script>
       (function () {
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        var wave = document.querySelector('.code-wave');
-        var chars = 'אבגדהוזחטיכלמנסעפצקרשת0123456789{}<>/'.split('');
+        var canvas = document.querySelector('.matrix-bg');
+        var ctx = canvas.getContext('2d');
         var FONT_SIZE = 14;
-        var ARC_DEPTH = 80;
-        var IDLE_MS = 5000;
+        var chars = 'אבגדהוזחטיכלמנסעפצקרשת0123456789{}<>/'.split('');
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var WAVE_INTERVAL_MS = 6000;
+        var COL_DENSITY = 0.45; // fraction of columns spawned per wave
+        var cols = 0;
+        var drops = [];
 
-        function build() {
-          wave.innerHTML = '';
-          var cols = Math.floor(innerWidth / FONT_SIZE);
-          for (var i = 0; i < cols; i++) {
-            var xNorm = cols > 1 ? i / (cols - 1) : 0.5;
-            var t = xNorm - 0.5;
-            var yOffset = ARC_DEPTH * (1 - 4 * t * t);
-            var span = document.createElement('span');
-            span.style.left = (i * FONT_SIZE + FONT_SIZE / 2) + 'px';
-            span.style.top = yOffset + 'px';
-            span.textContent = chars[Math.floor(Math.random() * chars.length)];
-            wave.appendChild(span);
-          }
+        function resize() {
+          canvas.width = innerWidth * dpr;
+          canvas.height = innerHeight * dpr;
+          canvas.style.width = innerWidth + 'px';
+          canvas.style.height = innerHeight + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          cols = Math.floor(innerWidth / FONT_SIZE);
         }
 
         function startWave() {
-          build();
-          wave.classList.remove('run');
-          // Force reflow so the animation restarts cleanly.
-          void wave.offsetWidth;
-          wave.classList.add('run');
+          drops = [];
+          for (var i = 0; i < cols; i++) {
+            if (Math.random() > COL_DENSITY) continue;
+            drops.push({
+              x: i * FONT_SIZE + FONT_SIZE / 2,
+              y: -Math.random() * 240,
+              speed: 2.0 + Math.random() * 3.5,
+            });
+          }
         }
 
-        wave.addEventListener('animationend', function () {
-          wave.classList.remove('run');
-          setTimeout(startWave, IDLE_MS);
-        });
+        function draw() {
+          // Slow fade so each char leaves a trailing tail behind.
+          ctx.save();
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.fillStyle = 'rgba(0,0,0,0.055)';
+          ctx.fillRect(0, 0, innerWidth, innerHeight);
+          ctx.restore();
 
-        addEventListener('resize', function () {
-          if (wave.classList.contains('run')) build();
-        });
+          ctx.font = FONT_SIZE + 'px ui-monospace, "SF Mono", Menlo, monospace';
+          ctx.textAlign = 'center';
+          for (var i = 0; i < drops.length; i++) {
+            var d = drops[i];
+            if (d.y > -FONT_SIZE && d.y < innerHeight + FONT_SIZE) {
+              var c = chars[Math.floor(Math.random() * chars.length)];
+              ctx.fillStyle = 'rgba(190, 145, 235, 0.8)';
+              ctx.fillText(c, d.x, d.y);
+              ctx.fillStyle = 'rgba(139, 95, 191, 0.32)';
+              ctx.fillText(chars[Math.floor(Math.random() * chars.length)], d.x, d.y - FONT_SIZE);
+            }
+            d.y += d.speed;
+          }
 
+          requestAnimationFrame(draw);
+        }
+
+        resize();
+        addEventListener('resize', resize);
+        draw();
         startWave();
+        setInterval(startWave, WAVE_INTERVAL_MS);
       })();
     </script>
   </body>
