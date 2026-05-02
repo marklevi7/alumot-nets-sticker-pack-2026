@@ -272,7 +272,7 @@
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v18</div>
+    <div class="version" aria-hidden="true">v19</div>
     <script>
       (function () {
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -283,8 +283,8 @@
         var chars = 'אבגדהוזחטיכלמנסעפצקרשת0123456789{}<>/'.split('');
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
         var ARC_DEPTH = 240;          // how far the middle dips below the edges
-        var SPEED = 3.6;              // px per frame the arc descends
-        var IDLE_MS = 4200;           // pause between waves
+        var SPEED = 2.6;              // px per frame the arc descends
+        var IDLE_MS = 5000;           // pause between waves
         var cols = 0;
         var waveY = -ARC_DEPTH;
         var waveActive = true;
@@ -300,36 +300,29 @@
         }
 
         function arcOffset(xNorm) {
-          // Parabola: 0 at edges, ARC_DEPTH at the middle.
           var t = xNorm - 0.5;
           return ARC_DEPTH * (1 - 4 * t * t);
         }
 
         function startWave() {
-          waveY = -ARC_DEPTH - FONT_SIZE * 4;
+          waveY = -ARC_DEPTH - FONT_SIZE * 2;
           waveActive = true;
         }
 
         function draw() {
-          ctx.save();
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.fillStyle = 'rgba(0,0,0,0.04)';
-          ctx.fillRect(0, 0, innerWidth, innerHeight);
-          ctx.restore();
+          // Hard clear every frame: only the current arc is on screen, no trails.
+          ctx.clearRect(0, 0, innerWidth, innerHeight);
 
           if (waveActive) {
             ctx.font = FONT_SIZE + 'px ui-monospace, "SF Mono", Menlo, monospace';
             ctx.textAlign = 'center';
+            ctx.fillStyle = 'rgba(190, 145, 235, 0.75)';
             for (var i = 0; i < cols; i++) {
               var xNorm = cols > 1 ? i / (cols - 1) : 0.5;
               var headY = waveY + arcOffset(xNorm);
               if (headY > -FONT_SIZE && headY < innerHeight + FONT_SIZE) {
                 var x = i * FONT_SIZE + FONT_SIZE / 2;
-                var c = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillStyle = 'rgba(190, 145, 235, 0.65)';
-                ctx.fillText(c, x, headY);
-                ctx.fillStyle = 'rgba(139, 95, 191, 0.30)';
-                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, headY - FONT_SIZE);
+                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, headY);
               }
             }
 
