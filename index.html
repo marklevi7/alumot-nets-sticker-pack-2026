@@ -272,7 +272,7 @@
         </a>
       </nav>
     </main>
-    <div class="version" aria-hidden="true">v20</div>
+    <div class="version" aria-hidden="true">v21</div>
     <script>
       (function () {
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -282,10 +282,11 @@
         var FONT_SIZE = 14;
         var chars = 'אבגדהוזחטיכלמנסעפצקרשת0123456789{}<>/'.split('');
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        var ARC_DEPTH = 240;          // how far the middle dips below the edges
-        var SPEED = 2.6;              // px per frame the arc descends
+        var ARC_DEPTH = 80;           // depth of the smile (small = subtle curve)
+        var SPEED = 3.0;              // px per frame the arc descends
         var IDLE_MS = 5000;           // pause between waves
         var cols = 0;
+        var colChars = [];            // fixed character per column for the current wave
         var waveY = -ARC_DEPTH;
         var waveActive = true;
         var waveTimer = null;
@@ -300,29 +301,33 @@
         }
 
         function arcOffset(xNorm) {
+          // Smile (U): edges at 0, middle at ARC_DEPTH (lower on screen).
           var t = xNorm - 0.5;
           return ARC_DEPTH * (1 - 4 * t * t);
         }
 
         function startWave() {
-          waveY = -ARC_DEPTH - FONT_SIZE * 2;
+          waveY = -ARC_DEPTH - FONT_SIZE;
+          colChars = [];
+          for (var i = 0; i < cols; i++) {
+            colChars.push(chars[Math.floor(Math.random() * chars.length)]);
+          }
           waveActive = true;
         }
 
         function draw() {
-          // Hard clear every frame: only the current arc is on screen, no trails.
           ctx.clearRect(0, 0, innerWidth, innerHeight);
 
           if (waveActive) {
             ctx.font = FONT_SIZE + 'px ui-monospace, "SF Mono", Menlo, monospace';
             ctx.textAlign = 'center';
-            ctx.fillStyle = 'rgba(190, 145, 235, 0.75)';
+            ctx.fillStyle = 'rgba(190, 145, 235, 0.85)';
             for (var i = 0; i < cols; i++) {
               var xNorm = cols > 1 ? i / (cols - 1) : 0.5;
               var headY = waveY + arcOffset(xNorm);
               if (headY > -FONT_SIZE && headY < innerHeight + FONT_SIZE) {
                 var x = i * FONT_SIZE + FONT_SIZE / 2;
-                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], x, headY);
+                ctx.fillText(colChars[i], x, headY);
               }
             }
 
