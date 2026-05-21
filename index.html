@@ -100,12 +100,6 @@
     text-transform: uppercase;
     margin-top: clamp(28px, 4vw, 48px);
   }
-  .cover-mark {
-    width: clamp(60px, 7vw, 90px);
-    color: var(--muted);
-    margin: 0 auto clamp(24px, 3.5vw, 44px);
-  }
-  .cover-mark svg { display: block; width: 100%; height: auto; }
 
   /* HOOK */
   .hook {
@@ -130,12 +124,12 @@
 
   /* ICONS */
   .face-lg {
-    width: clamp(190px, 23vw, 300px);
+    width: clamp(140px, 16vw, 220px);
     aspect-ratio: 120 / 140;
     height: auto;
     color: var(--text);
     display: block;
-    margin: 0 auto clamp(20px, 2.6vw, 36px);
+    margin: 0 auto clamp(18px, 2.2vw, 32px);
   }
   .face-sm {
     width: clamp(76px, 9vw, 116px);
@@ -144,10 +138,43 @@
     color: var(--soft);
     display: block;
   }
+  .face-mini {
+    width: clamp(38px, 4.2vw, 56px);
+    aspect-ratio: 120 / 140;
+    height: auto;
+    color: var(--soft);
+    display: block;
+    flex-shrink: 0;
+  }
   .ic-sm { width: clamp(22px, 2.2vw, 30px); height: clamp(22px, 2.2vw, 30px); color: var(--soft); flex-shrink: 0; }
   .ic-md { width: clamp(28px, 3vw, 42px); height: clamp(28px, 3vw, 42px); color: var(--text); }
-  .ic-lg { width: clamp(48px, 5.5vw, 80px); height: clamp(48px, 5.5vw, 80px); color: var(--soft); display: block; }
-  .ic-center { margin: 0 auto clamp(20px, 2.6vw, 36px); }
+
+  /* eyebrow + small face badge inline */
+  .eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 1.4vw, 18px);
+    margin-bottom: clamp(18px, 2.2vw, 32px);
+  }
+  .eyebrow-row .eyebrow { margin-bottom: 0; }
+
+  /* ANIMATED CLOCK */
+  .clock-anim {
+    width: clamp(56px, 6vw, 92px);
+    height: clamp(56px, 6vw, 92px);
+    color: var(--text);
+    display: block;
+    margin: 0 auto clamp(18px, 2.4vw, 32px);
+  }
+
+  /* ANIMATED HOURGLASS */
+  .hg-anim {
+    width: clamp(56px, 6vw, 92px);
+    height: auto;
+    aspect-ratio: 24 / 30;
+    color: var(--soft);
+    display: block;
+  }
 
   /* FAMILY ROW */
   .family {
@@ -296,17 +323,35 @@
   td.desc { color: var(--muted); }
   td.price { color: var(--text); font-variant-numeric: tabular-nums; text-align: right; padding-right: 0; white-space: nowrap; width: 22%; }
   .placeholder { color: var(--dim); }
-  .note {
-    color: var(--muted);
-    font-size: clamp(13px, 1.4vw, 18px);
-    margin-top: clamp(16px, 2vw, 28px);
-    max-width: 64ch;
-  }
 
   @media (max-width: 640px) {
     td { padding: 10px 6px; font-size: 14px; }
     td.k, td.stage { width: 36%; }
     td.price { width: auto; }
+  }
+
+  /* COST NOTES (three-column clarifier) */
+  .cost-notes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(18px, 2.4vw, 36px);
+    margin-top: clamp(22px, 2.8vw, 40px);
+  }
+  .cn-label {
+    color: var(--text);
+    font-size: clamp(12px, 1.1vw, 14px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cn-text {
+    color: var(--soft);
+    font-size: clamp(14px, 1.5vw, 19px);
+    line-height: 1.4;
+  }
+  @media (max-width: 720px) {
+    .cost-notes { grid-template-columns: 1fr; gap: 14px; }
   }
 
   /* CTA BUTTON */
@@ -444,48 +489,31 @@
       </g>
     </symbol>
 
-    <!-- DANA — rectangular head, reading glasses, check badge (contract reviewer) -->
+    <!-- DANA — softer rounded head, side hair sweeps, glasses, check antenna (feminine contract reviewer) -->
     <symbol id="face-dana" viewBox="0 0 120 140">
       <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="60" y1="12" x2="60" y2="22"/>
-        <line x1="54" y1="12" x2="66" y2="12"/>
-        <rect x="22" y="22" width="76" height="80" rx="8"/>
-        <rect x="32" y="50" width="22" height="18" rx="3"/>
-        <rect x="66" y="50" width="22" height="18" rx="3"/>
-        <line x1="54" y1="59" x2="66" y2="59"/>
-        <line x1="48" y1="86" x2="72" y2="86"/>
-        <line x1="22" y1="64" x2="14" y2="64"/>
-        <line x1="98" y1="64" x2="106" y2="64"/>
-        <circle cx="98" cy="32" r="9"/>
-        <path d="M 93 32 L 97 36 L 103 28"/>
+        <line x1="60" y1="14" x2="60" y2="22"/>
+        <path d="M 55 12 L 59 16 L 66 6"/>
+        <rect x="28" y="22" width="64" height="80" rx="22" ry="24"/>
+        <path d="M 30 56 Q 18 72 24 92"/>
+        <path d="M 90 56 Q 102 72 96 92"/>
+        <rect x="36" y="50" width="20" height="16" rx="4"/>
+        <rect x="64" y="50" width="20" height="16" rx="4"/>
+        <line x1="56" y1="58" x2="64" y2="58"/>
+        <path d="M 52 84 Q 60 90 68 84"/>
+        <line x1="28" y1="66" x2="22" y2="66"/>
+        <line x1="92" y1="66" x2="98" y2="66"/>
         <line x1="48" y1="106" x2="48" y2="118"/>
         <line x1="72" y1="106" x2="72" y2="118"/>
-        <path d="M 30 132 Q 60 120 90 132"/>
+        <path d="M 28 132 Q 60 120 92 132"/>
       </g>
       <g fill="currentColor" stroke="none">
-        <circle cx="43" cy="59" r="2.5"/>
-        <circle cx="77" cy="59" r="2.5"/>
-      </g>
-    </symbol>
-
-    <!-- COVER MARK — 4 dots -->
-    <symbol id="mark-four" viewBox="0 0 120 12">
-      <g fill="currentColor">
-        <circle cx="12" cy="6" r="3"/>
-        <circle cx="48" cy="6" r="3"/>
-        <circle cx="84" cy="6" r="3"/>
-        <circle cx="116" cy="6" r="3" transform="translate(-8,0)"/>
+        <circle cx="46" cy="58" r="2.5"/>
+        <circle cx="74" cy="58" r="2.5"/>
       </g>
     </symbol>
 
     <!-- SMALL UTILITY ICONS -->
-    <symbol id="ic-clock" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="9"/>
-        <line x1="12" y1="12" x2="12" y2="7"/>
-        <line x1="12" y1="12" x2="16" y2="14"/>
-      </g>
-    </symbol>
     <symbol id="ic-pencil" viewBox="0 0 24 24">
       <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M 4 20 L 6 14 L 16 4 L 20 8 L 10 18 Z"/>
@@ -523,14 +551,6 @@
         <path d="M 5 12 V 19 C 5 20.5 8 21.5 12 21.5 C 16 20.5 19 20.5 19 19 V 12"/>
       </g>
     </symbol>
-    <symbol id="ic-hourglass" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="6" y1="3" x2="18" y2="3"/>
-        <line x1="6" y1="21" x2="18" y2="21"/>
-        <path d="M 6 3 L 6 7 L 11 12 L 11 13 L 6 18 L 6 21"/>
-        <path d="M 18 3 L 18 7 L 13 12 L 13 13 L 18 18 L 18 21"/>
-      </g>
-    </symbol>
     <symbol id="ic-phone" viewBox="0 0 24 24">
       <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="7" y="3" width="10" height="18" rx="2"/>
@@ -553,17 +573,25 @@
   <!-- 0 — Cover -->
   <section class="slide cover" data-slide>
     <div class="slide-inner center stack">
-      <div class="cover-mark"><svg viewBox="0 0 120 12"><use href="#mark-four"/></svg></div>
       <div class="brand">Mark Levi Consulting</div>
       <h1>AI Employees</h1>
       <div class="tag">Internal master deck &middot; v32</div>
     </div>
   </section>
 
-  <!-- 1 — Hook -->
+  <!-- 1 — Hook (animated clock) -->
   <section class="slide" data-slide>
     <div class="slide-inner center stack">
-      <svg class="ic-lg ic-center"><use href="#ic-clock"/></svg>
+      <svg class="clock-anim" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">
+        <circle cx="50" cy="50" r="42" stroke-width="5"/>
+        <circle cx="50" cy="50" r="3" fill="currentColor" stroke="none"/>
+        <line x1="50" y1="50" x2="50" y2="22" stroke-width="4">
+          <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="1.2s" repeatCount="indefinite"/>
+        </line>
+        <line x1="50" y1="50" x2="50" y2="32" stroke-width="6">
+          <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="14.4s" repeatCount="indefinite"/>
+        </line>
+      </svg>
       <p class="hook">What if your next hire cost $500 a month and worked 24/7, without ever stopping?</p>
     </div>
   </section>
@@ -600,7 +628,7 @@
   <section class="slide meet" data-slide>
     <div class="slide-inner center stack">
       <svg class="face-lg"><use href="#face-maya"/></svg>
-      <div class="eyebrow">Meet</div>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
       <h1>Maya</h1>
       <div class="role">Content Factory.</div>
     </div>
@@ -609,7 +637,10 @@
   <!-- 5 — Maya story -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">You and Maya &middot; a little story</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-maya"/></svg>
+        <span class="eyebrow">Maya &middot; a little story</span>
+      </div>
       <p class="lead">Imagine someone on your team who reads 50 sources every morning and writes 20 posts before your coffee.</p>
       <p>She works through the night and never takes a day off.</p>
     </div>
@@ -618,7 +649,10 @@
   <!-- 6 — Maya proof -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">Already running</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-maya"/></svg>
+        <span class="eyebrow">Maya &middot; already running</span>
+      </div>
       <h2>Maya is already running at a medical news outlet.</h2>
       <div class="proof-bars">
         <div class="row">
@@ -637,7 +671,10 @@
   <!-- 7 — Maya numbers -->
   <section class="slide wide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">Maya &middot; the numbers</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-maya"/></svg>
+        <span class="eyebrow">Maya &middot; the numbers</span>
+      </div>
       <table>
         <tbody>
           <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
@@ -655,7 +692,7 @@
   <section class="slide meet" data-slide>
     <div class="slide-inner center stack">
       <svg class="face-lg"><use href="#face-tom"/></svg>
-      <div class="eyebrow">Meet</div>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
       <h1>Tom</h1>
       <div class="role">Lead Follow-up.</div>
     </div>
@@ -664,7 +701,10 @@
   <!-- 9 — Tom story -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">You and Tom &middot; a little story</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-tom"/></svg>
+        <span class="eyebrow">Tom &middot; a little story</span>
+      </div>
       <p class="lead">A lead fills your form. 30 seconds later they get a personal WhatsApp.</p>
       <p>By the time your salesman calls, they already know the name. The call connects far more often.</p>
     </div>
@@ -673,7 +713,10 @@
   <!-- 10 — Tom proof -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">Already running</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-tom"/></svg>
+        <span class="eyebrow">Tom &middot; already running</span>
+      </div>
       <h2>Tom is already running at a 13-agent real estate brokerage in Miami.</h2>
       <div class="platforms">
         <div class="platform"><svg class="ic-md"><use href="#ic-pin"/></svg><span>Miami, FL</span></div>
@@ -685,7 +728,10 @@
   <!-- 11 — Tom numbers -->
   <section class="slide wide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">Tom &middot; the numbers</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-tom"/></svg>
+        <span class="eyebrow">Tom &middot; the numbers</span>
+      </div>
       <table>
         <tbody>
           <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
@@ -703,7 +749,7 @@
   <section class="slide meet" data-slide>
     <div class="slide-inner center stack">
       <svg class="face-lg"><use href="#face-ron"/></svg>
-      <div class="eyebrow">Meet</div>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
       <h1>Ron</h1>
       <div class="role">Lead Wake-up.</div>
     </div>
@@ -712,7 +758,10 @@
   <!-- 13 — Ron story -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">You and Ron &middot; a little story</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-ron"/></svg>
+        <span class="eyebrow">Ron &middot; a little story</span>
+      </div>
       <p class="lead">Think about your dead leads from two years ago. The ones nobody called back.</p>
       <p>While you sleep, Ron picks the warmest and starts a conversation.</p>
     </div>
@@ -721,7 +770,10 @@
   <!-- 14 — Ron numbers -->
   <section class="slide wide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">Ron &middot; the numbers</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-ron"/></svg>
+        <span class="eyebrow">Ron &middot; the numbers</span>
+      </div>
       <table>
         <tbody>
           <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
@@ -739,7 +791,7 @@
   <section class="slide meet" data-slide>
     <div class="slide-inner center stack">
       <svg class="face-lg"><use href="#face-dana"/></svg>
-      <div class="eyebrow">Meet</div>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
       <h1>Dana</h1>
       <div class="role">Contract Renewal.</div>
     </div>
@@ -748,7 +800,10 @@
   <!-- 16 — Dana story -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">You and Dana &middot; a little story</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-dana"/></svg>
+        <span class="eyebrow">Dana &middot; a little story</span>
+      </div>
       <p class="lead">You have hundreds of contracts. Vendors, clients, subscriptions. One slips past its renewal date and quietly costs you real money.</p>
       <p>Dana watches every one and warns you 60 days out, before the trap closes.</p>
     </div>
@@ -757,6 +812,10 @@
   <!-- 17 — Dana depth -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-dana"/></svg>
+        <span class="eyebrow">Dana &middot; how she works</span>
+      </div>
       <h2>Dana knows each contract&rsquo;s terms, its renewal date, and the auto-renewal clauses hiding inside.</h2>
       <p>She pings the right person with everything they need to act.</p>
     </div>
@@ -765,7 +824,10 @@
   <!-- 18 — Dana numbers -->
   <section class="slide wide" data-slide>
     <div class="slide-inner stack">
-      <div class="eyebrow">Dana &middot; the numbers</div>
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-dana"/></svg>
+        <span class="eyebrow">Dana &middot; the numbers</span>
+      </div>
       <table>
         <tbody>
           <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
@@ -821,15 +883,54 @@
           <tr><td class="stage">Running &mdash; tokens</td><td class="desc">What the AI burns as it works. You use more, you pay more.</td><td class="price"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
         </tbody>
       </table>
-      <p class="note">Discovery and build you pay once. Systems we lock. Tokens you control.</p>
+      <div class="cost-notes">
+        <div>
+          <div class="cn-label">Pay once</div>
+          <div class="cn-text">Discovery and Build are one-time. You never see them again.</div>
+        </div>
+        <div>
+          <div class="cn-label">Fixed monthly</div>
+          <div class="cn-text">Systems is a locked monthly rate. It won&rsquo;t grow.</div>
+        </div>
+        <div>
+          <div class="cn-label">You control</div>
+          <div class="cn-text">Tokens scale with use. You decide how much it runs.</div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 22 — Why now -->
+  <!-- 22 — Why now (animated hourglass) -->
   <section class="slide" data-slide>
     <div class="slide-inner stack">
       <div class="eyebrow">Why now</div>
-      <svg class="ic-lg" style="margin-bottom: clamp(8px, 1vw, 16px);"><use href="#ic-hourglass"/></svg>
+      <svg class="hg-anim" viewBox="0 0 24 30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="6" y1="3" x2="18" y2="3"/>
+        <line x1="6" y1="27" x2="18" y2="27"/>
+        <path d="M 6 3 L 6 7 L 11 14 L 11 16 L 6 23 L 6 27"/>
+        <path d="M 18 3 L 18 7 L 13 14 L 13 16 L 18 23 L 18 27"/>
+        <path fill="currentColor" stroke="none">
+          <animate attributeName="d"
+            values="M 7 7.5 L 17 7.5 L 12 13 Z;M 8.5 9 L 15.5 9 L 12 13 Z;M 10.5 11 L 13.5 11 L 12 13 Z;M 12 13 L 12 13 L 12 13 Z;M 7 7.5 L 17 7.5 L 12 13 Z"
+            keyTimes="0; 0.35; 0.7; 0.95; 1"
+            dur="4s"
+            repeatCount="indefinite"/>
+        </path>
+        <line x1="12" y1="14" x2="12" y2="20" stroke-width="0.9">
+          <animate attributeName="opacity"
+            values="0; 1; 1; 0; 0"
+            keyTimes="0; 0.05; 0.85; 0.95; 1"
+            dur="4s"
+            repeatCount="indefinite"/>
+        </line>
+        <path fill="currentColor" stroke="none">
+          <animate attributeName="d"
+            values="M 12 19 L 12 19 L 12 19 Z;M 11 21 L 13 21 L 12 20 Z;M 9 22 L 15 22 L 12 18.5 Z;M 7 22 L 17 22 L 12 16.5 Z;M 12 19 L 12 19 L 12 19 Z"
+            keyTimes="0; 0.2; 0.6; 0.9; 1"
+            dur="4s"
+            repeatCount="indefinite"/>
+        </path>
+      </svg>
       <h2>Your competitors are already doing this.</h2>
       <p>Right now, companies your size and much bigger are putting AI Employees to work. Every month you wait, they get further ahead. The time to start is now.</p>
     </div>
