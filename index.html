@@ -309,21 +309,39 @@
     td.price { width: auto; }
   }
 
-  /* PHONE LINE */
-  .contact {
-    display: inline-flex; align-items: center; gap: 12px;
+  /* CTA BUTTON */
+  .cta-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(10px, 1.2vw, 16px);
+    padding: clamp(14px, 1.7vw, 22px) clamp(22px, 2.8vw, 36px);
+    border: 1px solid #2e2e2e;
+    border-radius: clamp(12px, 1.2vw, 16px);
+    background: transparent;
     color: var(--text);
-    font-size: clamp(17px, 2vw, 26px);
-  }
-  a.phone {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px solid var(--faint);
-    padding-bottom: 2px;
-    transition: border-color 160ms ease;
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 500;
     font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: border-color 180ms ease, background 180ms ease, transform 120ms ease;
+    -webkit-tap-highlight-color: transparent;
   }
-  a.phone:hover { border-bottom-color: var(--text); }
+  .cta-phone:hover { border-color: var(--soft); background: rgba(255,255,255,0.04); }
+  .cta-phone:active { transform: translateY(1px); }
+  .cta-phone svg {
+    width: clamp(20px, 2vw, 28px);
+    height: clamp(20px, 2vw, 28px);
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .brand-line {
+    color: var(--muted);
+    font-size: clamp(13px, 1.3vw, 16px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
 
   /* CHROME */
   .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 20; pointer-events: none; }
@@ -823,10 +841,13 @@
       <div class="eyebrow">Let&rsquo;s build your first one</div>
       <h2>Your first AI Employee can be live in 30 days.</h2>
       <p class="lead">Call me.</p>
-      <div class="contact">
-        <svg class="ic-md"><use href="#ic-phone"/></svg>
-        <span>Mark Levi Consulting &middot;&nbsp;<a class="phone" href="tel:+972528834558">+972-52-883-4558</a></span>
+      <div>
+        <a class="cta-phone" href="tel:+972528834558" aria-label="Call Mark Levi at +972 52 883 4558">
+          <svg aria-hidden="true"><use href="#ic-phone"/></svg>
+          <span>+972&#8209;52&#8209;883&#8209;4558</span>
+        </a>
       </div>
+      <div class="brand-line">Mark Levi Consulting</div>
     </div>
   </section>
 
