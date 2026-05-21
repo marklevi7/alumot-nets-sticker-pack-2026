@@ -146,21 +146,6 @@
     display: block;
     flex-shrink: 0;
   }
-
-  /* Gentle bob + tilt for the four agent heads.
-     Applied to the big Meet-slide heads and the family row. */
-  @keyframes face-bob {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50%      { transform: translateY(-5%) rotate(-1.4deg); }
-  }
-  .face-lg, .face-sm {
-    transform-origin: 50% 60%;
-    animation: face-bob 4.2s ease-in-out infinite;
-    will-change: transform;
-  }
-  .family-item:nth-child(2) .face-sm { animation-delay: -1.05s; }
-  .family-item:nth-child(3) .face-sm { animation-delay: -2.10s; }
-  .family-item:nth-child(4) .face-sm { animation-delay: -3.15s; }
   .ic-sm { width: clamp(22px, 2.2vw, 30px); height: clamp(22px, 2.2vw, 30px); color: var(--soft); flex-shrink: 0; }
   .ic-md { width: clamp(28px, 3vw, 42px); height: clamp(28px, 3vw, 42px); color: var(--text); }
 
@@ -494,8 +479,14 @@
       </g>
       <g fill="currentColor">
         <circle cx="60" cy="8" r="3.5"/>
-        <rect x="44" y="52" width="6" height="12" rx="1"/>
-        <rect x="70" y="52" width="6" height="12" rx="1"/>
+        <rect x="44" y="52" width="6" height="12" rx="1">
+          <animate attributeName="height" values="12;12;1;12;12" keyTimes="0;0.86;0.91;0.96;1" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="y"      values="52;52;57.5;52;52" keyTimes="0;0.86;0.91;0.96;1" dur="4s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="70" y="52" width="6" height="12" rx="1">
+          <animate attributeName="height" values="12;12;1;12;12" keyTimes="0;0.86;0.91;0.96;1" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="y"      values="52;52;57.5;52;52" keyTimes="0;0.86;0.91;0.96;1" dur="4s" repeatCount="indefinite"/>
+        </rect>
       </g>
     </symbol>
 
@@ -507,7 +498,9 @@
         <path d="M 48 80 Q 60 88 72 80"/>
         <line x1="18" y1="60" x2="10" y2="60"/>
         <line x1="102" y1="60" x2="110" y2="60"/>
-        <circle cx="98" cy="30" r="9"/>
+        <circle cx="98" cy="30" r="9">
+          <animate attributeName="r" values="9;9;11;9;9" keyTimes="0;0.45;0.55;0.7;1" dur="2.4s" repeatCount="indefinite"/>
+        </circle>
         <line x1="93" y1="30" x2="103" y2="30"/>
         <line x1="48" y1="104" x2="48" y2="118"/>
         <line x1="72" y1="104" x2="72" y2="118"/>
@@ -531,9 +524,14 @@
         <circle cx="60" cy="82" r="4"/>
         <line x1="22" y1="60" x2="14" y2="60"/>
         <line x1="98" y1="60" x2="106" y2="60"/>
-        <circle cx="100" cy="36" r="6"/>
-        <line x1="100" y1="24" x2="100" y2="27"/>
-        <line x1="109" y1="36" x2="112" y2="36"/>
+        <g>
+          <circle cx="100" cy="36" r="5"/>
+          <line x1="100" y1="25" x2="100" y2="28"/>
+          <line x1="100" y1="44" x2="100" y2="47"/>
+          <line x1="89" y1="36" x2="92" y2="36"/>
+          <line x1="108" y1="36" x2="111" y2="36"/>
+          <animateTransform attributeName="transform" type="rotate" from="0 100 36" to="360 100 36" dur="9s" repeatCount="indefinite"/>
+        </g>
         <line x1="50" y1="104" x2="50" y2="118"/>
         <line x1="72" y1="104" x2="72" y2="118"/>
         <path d="M 28 132 Q 60 120 94 132"/>
@@ -559,8 +557,12 @@
         <path d="M 28 132 Q 60 120 92 132"/>
       </g>
       <g fill="currentColor" stroke="none">
-        <circle cx="46" cy="58" r="2.5"/>
-        <circle cx="74" cy="58" r="2.5"/>
+        <circle cx="46" cy="58" r="2.5">
+          <animate attributeName="cx" values="46;49;46;43;46" keyTimes="0;0.25;0.5;0.75;1" dur="5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="74" cy="58" r="2.5">
+          <animate attributeName="cx" values="74;77;74;71;74" keyTimes="0;0.25;0.5;0.75;1" dur="5s" repeatCount="indefinite"/>
+        </circle>
       </g>
     </symbol>
 
