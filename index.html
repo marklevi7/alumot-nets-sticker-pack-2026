@@ -146,6 +146,21 @@
     display: block;
     flex-shrink: 0;
   }
+
+  /* Gentle bob + tilt for the four agent heads.
+     Applied to the big Meet-slide heads and the family row. */
+  @keyframes face-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-5%) rotate(-1.4deg); }
+  }
+  .face-lg, .face-sm {
+    transform-origin: 50% 60%;
+    animation: face-bob 4.2s ease-in-out infinite;
+    will-change: transform;
+  }
+  .family-item:nth-child(2) .face-sm { animation-delay: -1.05s; }
+  .family-item:nth-child(3) .face-sm { animation-delay: -2.10s; }
+  .family-item:nth-child(4) .face-sm { animation-delay: -3.15s; }
   .ic-sm { width: clamp(22px, 2.2vw, 30px); height: clamp(22px, 2.2vw, 30px); color: var(--soft); flex-shrink: 0; }
   .ic-md { width: clamp(28px, 3vw, 42px); height: clamp(28px, 3vw, 42px); color: var(--text); }
 
@@ -328,6 +343,42 @@
     td { padding: 10px 6px; font-size: 14px; }
     td.k, td.stage { width: 36%; }
     td.price { width: auto; }
+  }
+
+  /* HUMAN vs AI comparison table */
+  table.vs { width: 100%; border-collapse: collapse; margin-top: clamp(20px, 2.4vw, 36px); }
+  table.vs th {
+    display: table-cell;
+    text-align: right;
+    padding: 0 clamp(8px, 1vw, 16px) clamp(10px, 1.2vw, 16px);
+    border-bottom: 1px solid var(--line-2);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: clamp(11px, 1vw, 13px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  table.vs th.cat { text-align: left; padding-left: 0; }
+  table.vs th.ai { padding-right: 0; color: var(--text); }
+  table.vs td {
+    padding: clamp(14px, 1.7vw, 24px) clamp(8px, 1vw, 16px);
+    font-size: clamp(17px, 2vw, 26px);
+    border-top: 1px solid var(--line);
+    vertical-align: middle;
+    font-variant-numeric: tabular-nums;
+  }
+  table.vs tr:first-child td { border-top: 0; }
+  table.vs td.cat {
+    color: var(--text);
+    font-weight: 500;
+    padding-left: 0;
+    font-variant-numeric: normal;
+  }
+  table.vs td.human { color: var(--dim); text-align: right; text-decoration: line-through; text-decoration-thickness: 1px; }
+  table.vs td.ai    { color: var(--text); font-weight: 600; text-align: right; padding-right: 0; }
+  @media (max-width: 560px) {
+    table.vs td, table.vs th { font-size: 14px; padding: 12px 8px; }
+    table.vs th { font-size: 10px; letter-spacing: 0.15em; }
   }
 
   /* COST NOTES (three-column clarifier) */
@@ -620,11 +671,31 @@
         <div class="platform"><svg class="ic-md"><use href="#ic-email"/></svg><span>Email</span></div>
         <div class="platform"><svg class="ic-md"><use href="#ic-crm"/></svg><span>CRM</span></div>
       </div>
-      <p class="lead">You don&rsquo;t manage it. You talk to it.</p>
     </div>
   </section>
 
-  <!-- 4 — Meet Maya -->
+  <!-- 4 — You don't manage it. You talk to it. (Human vs AI comparison) -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <h2>You don&rsquo;t manage it. You talk to it.</h2>
+      <table class="vs">
+        <thead>
+          <tr>
+            <th class="cat"></th>
+            <th class="human">Human employee</th>
+            <th class="ai">AI Employee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="cat">Content creation</td><td class="human">$2,500/mo</td><td class="ai">$500/mo</td></tr>
+          <tr><td class="cat">Lead follow-up</td><td class="human">$4,000/mo</td><td class="ai">$600/mo</td></tr>
+          <tr><td class="cat">Contract renewal</td><td class="human">$6,000/mo</td><td class="ai">$700/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5 — Meet Maya -->
   <section class="slide meet" data-slide>
     <div class="slide-inner center stack">
       <svg class="face-lg"><use href="#face-maya"/></svg>
@@ -905,31 +976,38 @@
     <div class="slide-inner stack">
       <div class="eyebrow">Why now</div>
       <svg class="hg-anim" viewBox="0 0 24 30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="6" y1="3" x2="18" y2="3"/>
-        <line x1="6" y1="27" x2="18" y2="27"/>
-        <path d="M 6 3 L 6 7 L 11 14 L 11 16 L 6 23 L 6 27"/>
-        <path d="M 18 3 L 18 7 L 13 14 L 13 16 L 18 23 L 18 27"/>
-        <path fill="currentColor" stroke="none">
-          <animate attributeName="d"
-            values="M 7 7.5 L 17 7.5 L 12 13 Z;M 8.5 9 L 15.5 9 L 12 13 Z;M 10.5 11 L 13.5 11 L 12 13 Z;M 12 13 L 12 13 L 12 13 Z;M 7 7.5 L 17 7.5 L 12 13 Z"
-            keyTimes="0; 0.35; 0.7; 0.95; 1"
-            dur="4s"
-            repeatCount="indefinite"/>
-        </path>
-        <line x1="12" y1="14" x2="12" y2="20" stroke-width="0.9">
-          <animate attributeName="opacity"
-            values="0; 1; 1; 0; 0"
-            keyTimes="0; 0.05; 0.85; 0.95; 1"
-            dur="4s"
-            repeatCount="indefinite"/>
-        </line>
-        <path fill="currentColor" stroke="none">
-          <animate attributeName="d"
-            values="M 12 19 L 12 19 L 12 19 Z;M 11 21 L 13 21 L 12 20 Z;M 9 22 L 15 22 L 12 18.5 Z;M 7 22 L 17 22 L 12 16.5 Z;M 12 19 L 12 19 L 12 19 Z"
-            keyTimes="0; 0.2; 0.6; 0.9; 1"
-            dur="4s"
-            repeatCount="indefinite"/>
-        </path>
+        <g>
+          <line x1="6" y1="3" x2="18" y2="3"/>
+          <line x1="6" y1="27" x2="18" y2="27"/>
+          <path d="M 6 3 L 6 7 L 11 14 L 11 16 L 6 23 L 6 27"/>
+          <path d="M 18 3 L 18 7 L 13 14 L 13 16 L 18 23 L 18 27"/>
+          <path fill="currentColor" stroke="none">
+            <animate attributeName="d"
+              dur="6s"
+              repeatCount="indefinite"
+              keyTimes="0; 0.42; 0.5; 0.92; 1"
+              values="M 7 7 L 17 7 L 12 13 Z;M 12 13 L 12 13 L 12 13 Z;M 12 13 L 12 13 L 12 13 Z;M 7 7 L 17 7 L 12 13 Z;M 7 7 L 17 7 L 12 13 Z"/>
+          </path>
+          <path fill="currentColor" stroke="none">
+            <animate attributeName="d"
+              dur="6s"
+              repeatCount="indefinite"
+              keyTimes="0; 0.42; 0.5; 0.92; 1"
+              values="M 12 17 L 12 17 L 12 17 Z;M 7 23 L 17 23 L 12 17 Z;M 7 23 L 17 23 L 12 17 Z;M 12 17 L 12 17 L 12 17 Z;M 12 17 L 12 17 L 12 17 Z"/>
+          </path>
+          <line x1="12" y1="14" x2="12" y2="20" stroke-width="0.9">
+            <animate attributeName="opacity"
+              dur="6s"
+              repeatCount="indefinite"
+              keyTimes="0; 0.02; 0.42; 0.44; 0.5; 0.52; 0.92; 0.94; 1"
+              values="0; 1; 1; 0; 0; 1; 1; 0; 0"/>
+          </line>
+          <animateTransform attributeName="transform" type="rotate"
+            dur="6s"
+            repeatCount="indefinite"
+            keyTimes="0; 0.42; 0.5; 0.92; 1"
+            values="0 12 15; 0 12 15; 180 12 15; 180 12 15; 360 12 15"/>
+        </g>
       </svg>
       <h2>Your competitors are already doing this.</h2>
       <p>Right now, companies your size and much bigger are putting AI Employees to work. Every month you wait, they get further ahead. The time to start is now.</p>
