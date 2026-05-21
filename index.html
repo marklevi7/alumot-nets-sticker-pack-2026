@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<title>AI Employees</title>
+<title>AI Employees — Mark Levi Consulting</title>
 <style>
   :root {
     --bg: #000;
     --text: #ffffff;
-    --muted: #a8a8a8;
-    --dim: #6a6a6a;
+    --soft: #d6d6d6;
+    --muted: #9a9a9a;
+    --dim: #5e5e5e;
     --faint: #2a2a2a;
     --line: #161616;
+    --line-2: #222;
   }
   *, *::before, *::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; background: var(--bg); }
@@ -25,6 +27,7 @@
     overflow: hidden;
     text-rendering: optimizeLegibility;
   }
+  a { color: inherit; }
 
   .deck { position: fixed; inset: 0; overflow: hidden; }
 
@@ -37,11 +40,12 @@
   }
   .slide.active { opacity: 1; visibility: visible; }
   .slide-inner { width: 100%; max-width: 1100px; }
+  .wide .slide-inner { max-width: 1240px; }
 
   .eyebrow {
     color: var(--dim);
-    font-size: clamp(11px, 1.1vw, 13px);
-    letter-spacing: 0.22em;
+    font-size: clamp(11px, 1.05vw, 13px);
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     margin-bottom: clamp(18px, 2.2vw, 32px);
   }
@@ -55,43 +59,121 @@
     color: var(--text);
   }
   h2 {
-    font-size: clamp(30px, 5.6vw, 80px);
+    font-size: clamp(28px, 5.2vw, 76px);
     font-weight: 500;
     letter-spacing: -0.025em;
-    line-height: 1.04;
+    line-height: 1.05;
     margin: 0 0 clamp(20px, 2.5vw, 36px);
+    color: var(--text);
+  }
+  h3 {
+    font-size: clamp(22px, 3vw, 38px);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin: 0;
     color: var(--text);
   }
 
   p {
-    font-size: clamp(17px, 2.1vw, 28px);
-    line-height: 1.45;
-    color: var(--muted);
+    font-size: clamp(17px, 2vw, 26px);
+    line-height: 1.5;
+    color: var(--soft);
     margin: 0;
-    max-width: 60ch;
+    max-width: 64ch;
   }
-  .lead { color: var(--text); font-weight: 400; }
+  p + p { margin-top: clamp(14px, 1.6vw, 22px); }
+  .lead { font-size: clamp(20px, 2.6vw, 34px); color: var(--text); line-height: 1.35; max-width: 28ch; }
+  .body { color: var(--muted); }
   .dim { color: var(--dim); }
-
-  ul.list { list-style: none; padding: 0; margin: 0; }
-  ul.list li {
-    font-size: clamp(18px, 2.2vw, 30px);
-    color: var(--muted);
-    padding: clamp(14px, 1.6vw, 22px) 0;
-    border-top: 1px solid var(--line);
-    display: flex; gap: clamp(16px, 2vw, 28px); align-items: baseline;
-  }
-  ul.list li:first-child { border-top: 0; }
-  ul.list li .n {
-    color: var(--dim);
-    font-variant-numeric: tabular-nums;
-    font-size: clamp(13px, 1.3vw, 16px);
-    min-width: 2.5ch;
-  }
+  .soft { color: var(--soft); }
 
   .center { text-align: center; }
   .stack > * + * { margin-top: clamp(16px, 2vw, 28px); }
 
+  /* COVER */
+  .cover .brand {
+    color: var(--muted);
+    font-size: clamp(13px, 1.3vw, 16px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: clamp(28px, 4vw, 56px);
+  }
+  .cover h1 { letter-spacing: -0.04em; }
+  .cover .tag {
+    color: var(--dim);
+    font-size: clamp(11px, 1vw, 13px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-top: clamp(28px, 4vw, 48px);
+  }
+
+  /* HOOK */
+  .hook {
+    font-size: clamp(28px, 5.4vw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--text);
+    max-width: 22ch;
+    margin: 0;
+  }
+
+  /* MEET X */
+  .meet h1 { font-size: clamp(72px, 14vw, 200px); letter-spacing: -0.045em; }
+  .meet .role {
+    color: var(--muted);
+    font-size: clamp(20px, 2.6vw, 36px);
+    margin-top: clamp(12px, 1.4vw, 20px);
+    letter-spacing: -0.01em;
+  }
+
+  /* PROOF */
+  .proof h2 { max-width: 22ch; }
+  .num { color: var(--text); font-variant-numeric: tabular-nums; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    color: var(--soft);
+  }
+  table caption { display: none; }
+  table th { display: none; }
+  table td {
+    padding: clamp(11px, 1.3vw, 18px) clamp(8px, 1vw, 16px);
+    border-top: 1px solid var(--line);
+    font-size: clamp(15px, 1.7vw, 22px);
+    vertical-align: top;
+    text-align: left;
+    line-height: 1.4;
+  }
+  table tr:first-child td { border-top: 0; }
+  table tr:last-child td { border-bottom: 1px solid var(--line); }
+  td.k { color: var(--muted); width: 38%; padding-left: 0; }
+  td.v { color: var(--text); font-variant-numeric: tabular-nums; }
+  td.v.right { text-align: right; padding-right: 0; }
+  td.stage { color: var(--text); font-weight: 500; width: 26%; padding-left: 0; }
+  td.desc { color: var(--muted); }
+  td.price { color: var(--text); font-variant-numeric: tabular-nums; text-align: right; padding-right: 0; white-space: nowrap; width: 22%; }
+  td.phase { color: var(--text); font-weight: 500; width: 32%; padding-left: 0; }
+  td.what { color: var(--muted); padding-right: 0; }
+  .placeholder { color: var(--dim); }
+  .note {
+    color: var(--dim);
+    font-size: clamp(13px, 1.4vw, 18px);
+    margin-top: clamp(16px, 2vw, 28px);
+    max-width: 64ch;
+  }
+
+  @media (max-width: 640px) {
+    td { padding: 10px 6px; font-size: 14px; }
+    td.k, td.stage, td.phase { width: 36%; }
+    td.price { width: auto; }
+  }
+
+  /* CHROME */
   .progress {
     position: fixed; top: 0; left: 0; right: 0;
     height: 2px; z-index: 20; pointer-events: none;
@@ -116,7 +198,7 @@
   }
   .help kbd {
     color: var(--muted);
-    border: 1px solid #222;
+    border: 1px solid var(--line-2);
     border-radius: 4px;
     padding: 1px 6px;
     font-family: inherit;
@@ -130,6 +212,15 @@
   }
   .nav-zone.prev { left: 0; cursor: w-resize; }
   .nav-zone.next { right: 0; cursor: e-resize; }
+
+  a.phone {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--faint);
+    padding-bottom: 2px;
+    transition: border-color 160ms ease;
+  }
+  a.phone:hover { border-bottom-color: var(--text); }
 
   @media (max-width: 640px) {
     .help { display: none; }
@@ -146,76 +237,284 @@
 
   <main class="deck" id="deck">
 
+    <!-- 0 — Cover -->
+    <section class="slide cover" data-slide>
+      <div class="slide-inner center stack">
+        <div class="brand">Mark Levi Consulting</div>
+        <h1>AI Employees</h1>
+        <div class="tag">Internal master deck &middot; v32</div>
+      </div>
+    </section>
+
+    <!-- 1 — Hook -->
+    <section class="slide" data-slide>
+      <div class="slide-inner center">
+        <p class="hook">What if your next hire cost $500 a month and worked 24/7, without ever stopping?</p>
+      </div>
+    </section>
+
+    <!-- 2 — Problem -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <h2>Every business pays salaries for repetitive work.</h2>
+        <p class="body">Writing content. Following up on leads. Checking contracts.</p>
+        <p>An AI Employee does that same work for a fraction of the price.</p>
+      </div>
+    </section>
+
+    <!-- 3 — What an AI Employee is -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">What an AI Employee is</div>
+        <h2>A digital worker that does one human job, start to finish, on its own.</h2>
+        <p class="body">It lives inside the tools you already use: WhatsApp, email, your CRM.</p>
+        <p class="lead">You don&rsquo;t manage it. You talk to it.</p>
+      </div>
+    </section>
+
+    <!-- 4 — Meet Maya -->
+    <section class="slide meet" data-slide>
+      <div class="slide-inner center stack">
+        <div class="eyebrow">Meet</div>
+        <h1>Maya</h1>
+        <div class="role">Content Factory.</div>
+      </div>
+    </section>
+
+    <!-- 5 — Maya story -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">You and Maya &middot; a little story</div>
+        <p class="lead">Imagine someone on your team who reads 50 sources every morning and writes 20 posts before your coffee.</p>
+        <p>She works through the night and never takes a day off.</p>
+      </div>
+    </section>
+
+    <!-- 6 — Maya proof -->
+    <section class="slide proof" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Already running</div>
+        <h2>Maya is already running at a medical news outlet.</h2>
+        <p>She cut their content cost from <span class="num">$2,500</span> a month to <span class="num">$500</span>.</p>
+      </div>
+    </section>
+
+    <!-- 7 — Maya numbers -->
+    <section class="slide wide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Maya &middot; the numbers</div>
+        <table>
+          <tbody>
+            <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+            <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Saves</td><td class="v">$2,000/month, proven</td></tr>
+            <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+            <tr><td class="k">Tech</td><td class="v">source scraper + AI generation + CMS <span class="placeholder">[confirm Sun]</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 8 — Meet Tom -->
+    <section class="slide meet" data-slide>
+      <div class="slide-inner center stack">
+        <div class="eyebrow">Meet</div>
+        <h1>Tom</h1>
+        <div class="role">Lead Follow-up.</div>
+      </div>
+    </section>
+
+    <!-- 9 — Tom story -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">You and Tom &middot; a little story</div>
+        <p class="lead">A lead fills your form. 30 seconds later they get a personal WhatsApp.</p>
+        <p>By the time your salesman calls, they already know the name. The call connects far more often.</p>
+      </div>
+    </section>
+
+    <!-- 10 — Tom proof -->
+    <section class="slide proof" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Already running</div>
+        <h2>Tom is already running at a 13-agent real estate brokerage in Miami.</h2>
+      </div>
+    </section>
+
+    <!-- 11 — Tom numbers -->
+    <section class="slide wide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Tom &middot; the numbers</div>
+        <table>
+          <tbody>
+            <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+            <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Earns</td><td class="v">faster response = more closed deals</td></tr>
+            <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+            <tr><td class="k">Tech</td><td class="v">CRM + WhatsApp (WATI) + email (Mandrill) + approval <span class="placeholder">[confirm Sun]</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 12 — Meet Ron -->
+    <section class="slide meet" data-slide>
+      <div class="slide-inner center stack">
+        <div class="eyebrow">Meet</div>
+        <h1>Ron</h1>
+        <div class="role">Lead Wake-up.</div>
+      </div>
+    </section>
+
+    <!-- 13 — Ron story -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">You and Ron &middot; a little story</div>
+        <p class="lead">Think about your dead leads from two years ago. The ones nobody called back.</p>
+        <p>While you sleep, Ron picks the warmest and starts a conversation.</p>
+      </div>
+    </section>
+
+    <!-- 14 — Ron numbers -->
+    <section class="slide wide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Ron &middot; the numbers</div>
+        <table>
+          <tbody>
+            <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+            <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Earns</td><td class="v">recovered revenue from dead pipeline</td></tr>
+            <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+            <tr><td class="k">Tech</td><td class="v">CRM + scoring + WhatsApp/email + approval <span class="placeholder">[confirm Sun]</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 15 — Meet Dana -->
+    <section class="slide meet" data-slide>
+      <div class="slide-inner center stack">
+        <div class="eyebrow">Meet</div>
+        <h1>Dana</h1>
+        <div class="role">Contract Renewal.</div>
+      </div>
+    </section>
+
+    <!-- 16 — Dana story -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">You and Dana &middot; a little story</div>
+        <p class="lead">You have hundreds of contracts. Vendors, clients, subscriptions. One slips past its renewal date and quietly costs you real money.</p>
+        <p>Dana watches every one and warns you 60 days out, before the trap closes.</p>
+      </div>
+    </section>
+
+    <!-- 17 — Dana depth -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <h2>Dana knows each contract&rsquo;s terms, its renewal date, and the auto-renewal clauses hiding inside.</h2>
+        <p>She pings the right person with everything they need to act.</p>
+      </div>
+    </section>
+
+    <!-- 18 — Dana numbers -->
+    <section class="slide wide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Dana &middot; the numbers</div>
+        <table>
+          <tbody>
+            <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+            <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+            <tr><td class="k">Saves</td><td class="v">hundreds of thousands in avoidable losses</td></tr>
+            <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+            <tr><td class="k">Tech</td><td class="v">document store + contract parsing + WhatsApp/email alerts + approval <span class="placeholder">[confirm Sun]</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 19 — Like a real hire -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <h2>Every AI Employee works like a real hire.</h2>
+        <p>Each one works inside your existing tools, on your terms, on your timeline.</p>
+        <p>Same as any employee you bring on. You onboard it, you teach it, you pay it, and it does the work, start to finish.</p>
+      </div>
+    </section>
+
+    <!-- 20 — How we build it -->
+    <section class="slide wide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">How we build it</div>
+        <table>
+          <tbody>
+            <tr><td class="phase">1. Discovery &amp; quote</td><td class="what">Short call. We map the work, give a fixed price.</td></tr>
+            <tr><td class="phase">2. Build</td><td class="what">2&ndash;4 weeks. We build, connect, train it on your data.</td></tr>
+            <tr><td class="phase">3. Stabilize</td><td class="what">Goes live. We stay close 30 days, fix against real use.</td></tr>
+            <tr><td class="phase">4. Run</td><td class="what">You use it like any team member. We step back.</td></tr>
+            <tr><td class="phase">5. Maintain</td><td class="what">We keep it running, or teach your team to.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 21 — Costs -->
+    <section class="slide wide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Costs</div>
+        <table>
+          <tbody>
+            <tr>
+              <td class="stage">Discovery</td>
+              <td class="desc">We map your workflow and come back with a fixed quote.</td>
+              <td class="price"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td>
+            </tr>
+            <tr>
+              <td class="stage">Build</td>
+              <td class="desc">Design, build, connect, train. One-time.</td>
+              <td class="price"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td>
+            </tr>
+            <tr>
+              <td class="stage">Stabilize</td>
+              <td class="desc">30 days live, we stay close and fix against real use.</td>
+              <td class="price"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td>
+            </tr>
+            <tr>
+              <td class="stage">Running &mdash; systems</td>
+              <td class="desc">Platform, WhatsApp, email, infrastructure. Fixed every month, for years.</td>
+              <td class="price"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td>
+            </tr>
+            <tr>
+              <td class="stage">Running &mdash; tokens</td>
+              <td class="desc">What the AI burns as it works. You use more, you pay more.</td>
+              <td class="price"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="note">Discovery and build you pay once. Systems we lock. Tokens you control.</p>
+      </div>
+    </section>
+
+    <!-- 22 — Why now -->
+    <section class="slide" data-slide>
+      <div class="slide-inner stack">
+        <div class="eyebrow">Why now</div>
+        <h2>Your competitors are already doing this.</h2>
+        <p>Right now, companies your size and much bigger are putting AI Employees to work. Every month you wait, they get further ahead. The time to start is now.</p>
+      </div>
+    </section>
+
+    <!-- 23 — Close -->
     <section class="slide" data-slide>
       <div class="slide-inner center stack">
-        <div class="eyebrow">A presentation</div>
-        <h1>AI&nbsp;Employees</h1>
-        <p class="lead dim">[ subtitle / one-line thesis ]</p>
-      </div>
-    </section>
-
-    <section class="slide" data-slide>
-      <div class="slide-inner stack">
-        <div class="eyebrow">01 &middot; The premise</div>
-        <h2>One sentence that frames the entire deck goes here.</h2>
-        <p>Supporting line in muted gray. Set the stakes, name the shift, hint at the answer that's coming.</p>
-      </div>
-    </section>
-
-    <section class="slide" data-slide>
-      <div class="slide-inner stack">
-        <div class="eyebrow">02 &middot; Why now</div>
-        <h2>The conditions changed.</h2>
-        <ul class="list">
-          <li><span class="n">01</span><span>First reason &mdash; replace with your copy.</span></li>
-          <li><span class="n">02</span><span>Second reason &mdash; replace with your copy.</span></li>
-          <li><span class="n">03</span><span>Third reason &mdash; replace with your copy.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="slide" data-slide>
-      <div class="slide-inner stack">
-        <div class="eyebrow">03 &middot; What an AI employee is</div>
-        <h2>Definition slide.</h2>
-        <p>Two or three lines that pin down what you mean by "AI employee" so nothing in the rest of the deck gets misread.</p>
-      </div>
-    </section>
-
-    <section class="slide" data-slide>
-      <div class="slide-inner stack">
-        <div class="eyebrow">04 &middot; What they do</div>
-        <h2>Capabilities.</h2>
-        <ul class="list">
-          <li><span class="n">A</span><span>Capability one.</span></li>
-          <li><span class="n">B</span><span>Capability two.</span></li>
-          <li><span class="n">C</span><span>Capability three.</span></li>
-          <li><span class="n">D</span><span>Capability four.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="slide" data-slide>
-      <div class="slide-inner stack">
-        <div class="eyebrow">05 &middot; The number</div>
-        <h1 style="font-size: clamp(72px, 16vw, 220px);">00<span class="dim">%</span></h1>
-        <p class="dim">A single statistic or claim, isolated. Replace with the one number you want them to remember.</p>
-      </div>
-    </section>
-
-    <section class="slide" data-slide>
-      <div class="slide-inner stack">
-        <div class="eyebrow">06 &middot; The shift</div>
-        <h2>From <span class="dim">old way</span> &nbsp;&rarr;&nbsp; new way.</h2>
-        <p>One paragraph that names the transition crisply. Keep it under three lines.</p>
-      </div>
-    </section>
-
-    <section class="slide" data-slide>
-      <div class="slide-inner center stack">
-        <div class="eyebrow">Thank you</div>
-        <h1>End.</h1>
-        <p class="dim">[ contact / next step ]</p>
+        <div class="eyebrow">Let&rsquo;s build your first one</div>
+        <h2>Your first AI Employee can be live in 30 days.</h2>
+        <p class="lead">Call me.</p>
+        <p class="dim">Mark Levi Consulting &middot; <a class="phone" href="tel:+972528834558">+972-52-883-4558</a></p>
       </div>
     </section>
 
