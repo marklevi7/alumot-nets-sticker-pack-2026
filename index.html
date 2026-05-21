@@ -33,12 +33,19 @@
 
   .slide {
     position: absolute; inset: 0;
-    display: grid; place-items: center;
-    padding: clamp(28px, 6vw, 96px);
+    display: grid;
+    justify-items: center;
+    align-items: start;
+    padding: clamp(72px, 12vh, 140px) clamp(28px, 6vw, 96px) clamp(40px, 8vh, 100px);
     opacity: 0; visibility: hidden;
     transition: opacity 220ms ease;
   }
   .slide.active { opacity: 1; visibility: visible; }
+  /* Slides that benefit from vertical centering (cover, Meet faces, closing) */
+  .slide.cover, .slide.meet, .slide.close {
+    align-items: center;
+    padding: clamp(28px, 6vw, 96px);
+  }
   .slide-inner { width: 100%; max-width: 1100px; }
   .wide .slide-inner { max-width: 1280px; }
 
@@ -1044,7 +1051,7 @@
   </section>
 
   <!-- 23 — Close -->
-  <section class="slide" data-slide>
+  <section class="slide close" data-slide>
     <div class="slide-inner center stack">
       <div class="eyebrow">Let&rsquo;s build your first one</div>
       <h2>Your first AI Employee can be live in 30 days.</h2>
