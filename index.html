@@ -1,0 +1,1263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0c0c">
+<meta name="color-scheme" content="dark">
+<title>AI Employees — Mark Levi Consulting</title>
+<style>
+  :root {
+    --bg: #0c0c0c;
+    --text: #ffffff;
+    --soft: #dadada;
+    --muted: #9a9a9a;
+    --dim: #5e5e5e;
+    --faint: #2a2a2a;
+    --line: #1c1c1c;
+    --line-2: #262626;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; background: var(--bg); }
+  body {
+    color: var(--text);
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; }
+
+  .deck { position: fixed; inset: 0; overflow: hidden; }
+
+  .slide {
+    position: absolute; inset: 0;
+    display: grid;
+    justify-items: center;
+    align-items: start;
+    padding: clamp(72px, 12vh, 140px) clamp(28px, 6vw, 96px) clamp(40px, 8vh, 100px);
+    opacity: 0; visibility: hidden;
+    transition: opacity 220ms ease;
+  }
+  .slide.active { opacity: 1; visibility: visible; }
+  /* Slides that benefit from vertical centering (cover, Meet faces, closing) */
+  .slide.cover, .slide.meet, .slide.close {
+    align-items: center;
+    padding: clamp(28px, 6vw, 96px);
+  }
+  .slide-inner { width: 100%; max-width: 1100px; }
+  .wide .slide-inner { max-width: 1280px; }
+
+  /* TYPOGRAPHY */
+  .eyebrow {
+    color: var(--soft);
+    font-size: clamp(12px, 1.15vw, 15px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: clamp(18px, 2.2vw, 32px);
+  }
+  h1 {
+    font-size: clamp(44px, 9vw, 132px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    margin: 0;
+    color: var(--text);
+  }
+  h2 {
+    font-size: clamp(28px, 5.2vw, 76px);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin: 0 0 clamp(20px, 2.5vw, 36px);
+    color: var(--text);
+  }
+  p {
+    font-size: clamp(17px, 2vw, 26px);
+    line-height: 1.5;
+    color: var(--soft);
+    margin: 0;
+    max-width: 64ch;
+  }
+  p + p { margin-top: clamp(14px, 1.6vw, 22px); }
+  .lead { font-size: clamp(20px, 2.6vw, 34px); color: var(--text); line-height: 1.35; max-width: 28ch; font-weight: 400; }
+  .body { color: var(--muted); }
+  .dim { color: var(--dim); }
+  .soft { color: var(--soft); }
+  .center { text-align: center; }
+  .stack > * + * { margin-top: clamp(16px, 2vw, 28px); }
+
+  /* COVER */
+  .cover .brand {
+    color: var(--soft);
+    font-size: clamp(13px, 1.3vw, 16px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: clamp(28px, 4vw, 56px);
+  }
+  .cover h1 { letter-spacing: -0.04em; }
+  .cover .tag {
+    color: var(--soft);
+    font-weight: 600;
+    font-size: clamp(11px, 1vw, 13px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-top: clamp(28px, 4vw, 48px);
+  }
+
+  /* HOOK */
+  .hook {
+    font-size: clamp(28px, 5.4vw, 72px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--text);
+    max-width: 22ch;
+    margin: 0;
+  }
+
+  /* MEET X */
+  .meet h1 { font-size: clamp(72px, 14vw, 200px); letter-spacing: -0.045em; }
+  .meet .role {
+    color: var(--muted);
+    font-size: clamp(20px, 2.6vw, 36px);
+    margin-top: clamp(10px, 1.2vw, 18px);
+    letter-spacing: -0.01em;
+  }
+  .meet .eyebrow { margin-bottom: clamp(14px, 1.6vw, 22px); }
+
+  /* ICONS */
+  .face-lg {
+    width: clamp(140px, 16vw, 220px);
+    aspect-ratio: 120 / 140;
+    height: auto;
+    color: var(--text);
+    display: block;
+    margin: 0 auto clamp(18px, 2.2vw, 32px);
+  }
+  .face-sm {
+    width: clamp(76px, 9vw, 116px);
+    aspect-ratio: 120 / 140;
+    height: auto;
+    color: var(--soft);
+    display: block;
+  }
+  .face-mini {
+    width: clamp(38px, 4.2vw, 56px);
+    aspect-ratio: 120 / 140;
+    height: auto;
+    color: var(--soft);
+    display: block;
+    flex-shrink: 0;
+  }
+  .mlc-mark {
+    width: clamp(48px, 5vw, 72px);
+    height: auto;
+    aspect-ratio: 60 / 22;
+    color: var(--text);
+    display: block;
+    margin: 0 auto;
+  }
+  .ic-sm { width: clamp(22px, 2.2vw, 30px); height: clamp(22px, 2.2vw, 30px); color: var(--soft); flex-shrink: 0; }
+  .ic-md { width: clamp(28px, 3vw, 42px); height: clamp(28px, 3vw, 42px); color: var(--text); }
+
+  /* eyebrow + small face badge inline */
+  .eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 1.4vw, 18px);
+    margin-bottom: clamp(18px, 2.2vw, 32px);
+  }
+  .eyebrow-row .eyebrow { margin-bottom: 0; }
+
+  /* ANIMATED CLOCK */
+  .clock-anim {
+    width: clamp(56px, 6vw, 92px);
+    height: clamp(56px, 6vw, 92px);
+    color: var(--text);
+    display: block;
+    margin: 0 auto clamp(18px, 2.4vw, 32px);
+  }
+
+  /* ANIMATED HOURGLASS */
+  .hg-anim {
+    width: clamp(56px, 6vw, 92px);
+    height: auto;
+    aspect-ratio: 24 / 30;
+    color: var(--soft);
+    display: block;
+  }
+
+  /* FAMILY ROW */
+  .family {
+    display: flex;
+    gap: clamp(18px, 4vw, 60px);
+    justify-content: center;
+    align-items: end;
+    margin: clamp(22px, 3.5vw, 48px) 0;
+    flex-wrap: wrap;
+  }
+  .family-item { text-align: center; }
+  .family-item .name {
+    color: var(--muted);
+    font-size: clamp(13px, 1.3vw, 17px);
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* PLATFORM ROW */
+  .platforms {
+    display: flex;
+    gap: clamp(22px, 4vw, 56px);
+    margin-top: clamp(20px, 2.6vw, 32px);
+    flex-wrap: wrap;
+  }
+  .platform {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--text);
+    font-size: clamp(15px, 1.6vw, 22px);
+    font-weight: 500;
+  }
+
+  /* ICON LIST */
+  ul.icon-list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: clamp(14px, 1.6vw, 20px);
+  }
+  ul.icon-list li {
+    display: flex; align-items: center;
+    gap: clamp(14px, 1.6vw, 22px);
+    font-size: clamp(18px, 2.2vw, 28px);
+    color: var(--soft);
+  }
+
+  /* PROOF BARS */
+  .proof-bars {
+    display: grid;
+    gap: clamp(16px, 2vw, 24px);
+    margin: clamp(20px, 2.6vw, 32px) 0 0;
+    max-width: 620px;
+  }
+  .proof-bars .row {
+    display: grid;
+    grid-template-columns: clamp(96px, 11vw, 140px) 1fr;
+    align-items: center;
+    gap: clamp(16px, 2vw, 24px);
+  }
+  .proof-bars .label {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 500;
+  }
+  .proof-bars .bar {
+    display: block;
+    height: clamp(22px, 2.6vw, 34px);
+    background: var(--text);
+    border-radius: 2px;
+  }
+  .proof-bars .bar.dim { background: var(--faint); }
+
+  /* STEPS (process) */
+  ol.steps {
+    list-style: none; padding: 0; margin: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(14px, 1.8vw, 28px);
+    position: relative;
+  }
+  ol.steps::before {
+    content: '';
+    position: absolute;
+    left: 18px; right: 18px;
+    top: 18px;
+    height: 2px;
+    background: var(--line-2);
+    z-index: 0;
+  }
+  ol.steps li { position: relative; z-index: 1; }
+  ol.steps .num {
+    display: flex; align-items: center; justify-content: center;
+    width: clamp(32px, 3.4vw, 40px);
+    height: clamp(32px, 3.4vw, 40px);
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--text);
+    color: var(--text);
+    font-weight: 600;
+    font-size: clamp(14px, 1.3vw, 17px);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: clamp(14px, 1.6vw, 20px);
+  }
+  ol.steps .name {
+    color: var(--text);
+    font-weight: 600;
+    font-size: clamp(15px, 1.5vw, 20px);
+    margin-bottom: clamp(6px, 0.8vw, 10px);
+    line-height: 1.2;
+  }
+  ol.steps .desc {
+    color: var(--muted);
+    font-size: clamp(13px, 1.2vw, 17px);
+    line-height: 1.4;
+  }
+  @media (max-width: 760px) {
+    ol.steps { grid-template-columns: 1fr; gap: clamp(14px, 2vw, 18px); }
+    ol.steps::before { display: none; }
+    ol.steps li { display: grid; grid-template-columns: 36px 1fr; column-gap: 16px; row-gap: 2px; }
+    ol.steps .num { margin-bottom: 0; grid-row: span 2; align-self: start; }
+    ol.steps .name { grid-column: 2; }
+    ol.steps .desc { grid-column: 2; }
+  }
+
+  /* TABLES */
+  table {
+    width: 100%; border-collapse: collapse;
+    margin: 0; color: var(--soft);
+  }
+  table caption { display: none; }
+  table th { display: none; }
+  table td {
+    padding: clamp(11px, 1.3vw, 18px) clamp(8px, 1vw, 16px);
+    border-top: 1px solid var(--line);
+    font-size: clamp(15px, 1.7vw, 22px);
+    vertical-align: top;
+    text-align: left;
+    line-height: 1.4;
+  }
+  table tr:first-child td { border-top: 0; }
+  table tr:last-child td { border-bottom: 1px solid var(--line); }
+  td.k { color: var(--muted); width: 38%; padding-left: 0; }
+  td.v { color: var(--text); font-variant-numeric: tabular-nums; }
+  td.stage { color: var(--text); font-weight: 600; width: 26%; padding-left: 0; }
+  td.desc { color: var(--muted); }
+  td.price { color: var(--text); font-variant-numeric: tabular-nums; text-align: right; padding-right: 0; white-space: nowrap; width: 22%; }
+  .placeholder { color: var(--dim); }
+
+  @media (max-width: 640px) {
+    td { padding: 10px 6px; font-size: 14px; }
+    td.k, td.stage { width: 36%; }
+    td.price { width: auto; }
+  }
+
+  /* HUMAN vs AI comparison table */
+  table.vs { width: 100%; border-collapse: collapse; margin-top: clamp(20px, 2.4vw, 36px); }
+  table.vs th {
+    display: table-cell;
+    text-align: right;
+    padding: 0 clamp(8px, 1vw, 16px) clamp(10px, 1.2vw, 16px);
+    border-bottom: 1px solid var(--line-2);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: clamp(11px, 1vw, 13px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  table.vs th.cat { text-align: left; padding-left: 0; }
+  table.vs th.ai { padding-right: 0; color: var(--text); }
+  table.vs td {
+    padding: clamp(14px, 1.7vw, 24px) clamp(8px, 1vw, 16px);
+    font-size: clamp(17px, 2vw, 26px);
+    border-top: 1px solid var(--line);
+    vertical-align: middle;
+    font-variant-numeric: tabular-nums;
+  }
+  table.vs tr:first-child td { border-top: 0; }
+  table.vs td.cat {
+    color: var(--text);
+    font-weight: 500;
+    padding-left: 0;
+    font-variant-numeric: normal;
+  }
+  table.vs td.human { color: var(--muted); text-align: right; text-decoration: line-through; text-decoration-thickness: 1px; text-decoration-color: var(--dim); }
+  table.vs td.ai    { color: var(--text); font-weight: 600; text-align: right; padding-right: 0; }
+  table.vs .cat-row { display: inline-flex; align-items: center; gap: clamp(10px, 1.2vw, 16px); }
+  table.vs .cat-row .ic-sm { color: var(--soft); }
+  @media (max-width: 560px) {
+    table.vs td, table.vs th { font-size: 14px; padding: 12px 8px; }
+    table.vs th { font-size: 10px; letter-spacing: 0.15em; }
+  }
+
+  /* COMPLIANCE BADGES */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(8px, 1vw, 12px);
+    margin-top: clamp(4px, 0.8vw, 10px);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(8px, 1vw, 12px);
+    padding: clamp(8px, 1vw, 12px) clamp(12px, 1.4vw, 18px);
+    border: 1px solid var(--line-2);
+    border-radius: clamp(8px, 0.9vw, 12px);
+    color: var(--text);
+    font-size: clamp(13px, 1.3vw, 17px);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  /* DEPLOYMENT OPTIONS */
+  .deploy {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(14px, 1.8vw, 22px);
+    margin-top: clamp(10px, 1.4vw, 18px);
+  }
+  .deploy-item {
+    padding: clamp(14px, 1.6vw, 20px);
+    border: 1px solid var(--line);
+    border-radius: clamp(10px, 1vw, 14px);
+  }
+  .deploy-label {
+    color: var(--text);
+    font-weight: 700;
+    font-size: clamp(12px, 1.15vw, 15px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: clamp(6px, 0.8vw, 10px);
+  }
+  .deploy-text {
+    color: var(--muted);
+    font-size: clamp(13px, 1.3vw, 17px);
+    line-height: 1.45;
+  }
+  @media (max-width: 720px) {
+    .deploy { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  /* COST NOTES (three-column clarifier) */
+  .cost-notes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(18px, 2.4vw, 36px);
+    margin-top: clamp(22px, 2.8vw, 40px);
+  }
+  .cn-label {
+    color: var(--text);
+    font-size: clamp(12px, 1.1vw, 14px);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cn-text {
+    color: var(--soft);
+    font-size: clamp(14px, 1.5vw, 19px);
+    line-height: 1.4;
+  }
+  @media (max-width: 720px) {
+    .cost-notes { grid-template-columns: 1fr; gap: 14px; }
+  }
+
+  /* CTA BUTTON */
+  .cta-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(10px, 1.2vw, 16px);
+    padding: clamp(14px, 1.7vw, 22px) clamp(22px, 2.8vw, 36px);
+    border: 1px solid #2e2e2e;
+    border-radius: clamp(12px, 1.2vw, 16px);
+    background: transparent;
+    color: var(--text);
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: border-color 180ms ease, background 180ms ease, transform 120ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cta-phone:hover { border-color: var(--soft); background: rgba(255,255,255,0.04); }
+  .cta-phone:active { transform: translateY(1px); }
+  .cta-phone svg {
+    width: clamp(20px, 2vw, 28px);
+    height: clamp(20px, 2vw, 28px);
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .brand-line {
+    color: var(--muted);
+    font-size: clamp(13px, 1.3vw, 16px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* CHROME */
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 20; pointer-events: none; }
+  .progress > i { display: block; height: 100%; background: var(--faint); width: 0%; transition: width 220ms ease; }
+  .counter {
+    position: fixed; bottom: 22px; right: 26px;
+    color: var(--muted); font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    z-index: 15; letter-spacing: 0.04em;
+  }
+  .help {
+    position: fixed; bottom: 22px; left: 26px;
+    color: var(--muted); font-size: 12px;
+    z-index: 15;
+  }
+  .help kbd {
+    color: var(--soft);
+    border: 1px solid var(--line-2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: inherit;
+    font-size: 11px;
+    margin: 0 2px;
+  }
+  .nav-zone { position: fixed; top: 0; bottom: 0; width: 22%; z-index: 10; cursor: pointer; background: transparent; }
+  .nav-zone.prev { left: 0; cursor: w-resize; }
+  .nav-zone.next { right: 0; cursor: e-resize; }
+  @media (max-width: 640px) {
+    .help { display: none; }
+    .counter { bottom: 14px; right: 16px; }
+
+    /* Brighter, thicker progress bar on mobile */
+    .progress { height: 3px; }
+    .progress > i { background: var(--dim); }
+
+    /* More air between stacked elements */
+    .stack > * + * { margin-top: clamp(18px, 3.6vw, 26px); }
+
+    /* Slightly tighter content padding so titles breathe but content uses width */
+    .slide { padding-left: 22px; padding-right: 22px; padding-top: clamp(64px, 10vh, 110px); }
+
+    /* Smaller Meet face on phones so the name dominates */
+    .face-lg { width: clamp(108px, 30vw, 160px); margin-bottom: clamp(14px, 2.6vw, 22px); }
+    .meet h1 { font-size: clamp(64px, 17vw, 110px); }
+    .meet .role { font-size: clamp(17px, 4.4vw, 24px); }
+
+    /* Family row becomes a 2x2 grid */
+    .family {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(22px, 5vw, 32px) clamp(28px, 7vw, 44px);
+      justify-items: center;
+      align-items: end;
+    }
+    .face-sm { width: clamp(86px, 22vw, 120px); }
+
+    /* Eyebrow + mini-head row sits tighter */
+    .eyebrow-row { gap: 10px; }
+    .face-mini { width: clamp(34px, 9vw, 46px); }
+
+    /* Hook copy reads better with one less line break */
+    .hook { font-size: clamp(26px, 7.2vw, 40px); max-width: 18ch; }
+
+    /* Cost-table rows stack the description below the stage+price on phones */
+    .slide.wide tr:has(td.stage) {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      column-gap: 14px;
+      row-gap: 4px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+    .slide.wide tr:has(td.stage):first-child { border-top: 0; }
+    .slide.wide tr:has(td.stage) td { padding: 0; border: 0; width: auto; }
+    .slide.wide td.stage { grid-column: 1; grid-row: 1; font-size: 16px; }
+    .slide.wide td.price { grid-column: 2; grid-row: 1; font-size: 15px; }
+    .slide.wide td.desc  { grid-column: 1 / -1; grid-row: 2; font-size: 13px; line-height: 1.45; color: var(--muted); }
+
+    /* Closing CTA: a little less air to keep it on one screen */
+    .close .cta-phone { padding: 16px 22px; font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slide, .progress > i { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ICON LIBRARY -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- MAYA — square head, screen face, pixel eyes (content creator) -->
+    <symbol id="face-maya" viewBox="0 0 120 140">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="60" y1="10" x2="60" y2="22"/>
+        <rect x="20" y="22" width="80" height="80" rx="12"/>
+        <rect x="32" y="40" width="56" height="36" rx="4"/>
+        <line x1="48" y1="90" x2="72" y2="90"/>
+        <line x1="20" y1="60" x2="13" y2="60"/>
+        <line x1="100" y1="60" x2="107" y2="60"/>
+        <line x1="48" y1="108" x2="48" y2="120"/>
+        <line x1="72" y1="108" x2="72" y2="120"/>
+        <path d="M 28 132 Q 60 120 92 132"/>
+      </g>
+      <g fill="currentColor">
+        <circle cx="60" cy="8" r="3.5"/>
+        <rect x="44" y="52" width="6" height="12" rx="1">
+          <animate attributeName="height" values="12;12;1;12;12" keyTimes="0;0.5;0.55;0.6;1" dur="2.7s" repeatCount="indefinite"/>
+          <animate attributeName="y"      values="52;52;57.5;52;52" keyTimes="0;0.5;0.55;0.6;1" dur="2.7s" repeatCount="indefinite"/>
+          <animate attributeName="x"      values="44;44;46;42;44" keyTimes="0;0.75;0.82;0.9;1" dur="2.7s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="70" y="52" width="6" height="12" rx="1">
+          <animate attributeName="height" values="12;12;1;12;12" keyTimes="0;0.5;0.55;0.6;1" dur="2.7s" repeatCount="indefinite"/>
+          <animate attributeName="y"      values="52;52;57.5;52;52" keyTimes="0;0.5;0.55;0.6;1" dur="2.7s" repeatCount="indefinite"/>
+          <animate attributeName="x"      values="70;70;72;68;70" keyTimes="0;0.75;0.82;0.9;1" dur="2.7s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+    </symbol>
+
+    <!-- TOM — pill head, round eyes, smile, message badge (sales follow-up) -->
+    <symbol id="face-tom" viewBox="0 0 120 140">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="60" y1="12" x2="60" y2="22"/>
+        <rect x="18" y="22" width="84" height="78" rx="39"/>
+        <path d="M 48 80 Q 60 88 72 80">
+          <animate attributeName="d"
+            values="M 48 80 Q 60 88 72 80;M 48 80 Q 60 88 72 80;M 48 78 Q 60 92 72 78;M 48 80 Q 60 88 72 80"
+            keyTimes="0;0.4;0.55;1"
+            dur="1.6s" repeatCount="indefinite"/>
+        </path>
+        <line x1="18" y1="60" x2="10" y2="60"/>
+        <line x1="102" y1="60" x2="110" y2="60"/>
+        <circle cx="98" cy="30" r="9">
+          <animate attributeName="r" values="9;9;11;9;9" keyTimes="0;0.45;0.55;0.7;1" dur="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="93" y1="30" x2="103" y2="30"/>
+        <line x1="48" y1="104" x2="48" y2="118"/>
+        <line x1="72" y1="104" x2="72" y2="118"/>
+        <path d="M 28 132 Q 60 120 92 132"/>
+      </g>
+      <g fill="currentColor" stroke="none">
+        <polygon points="55,12 60,3 65,12"/>
+        <circle cx="46" cy="58" r="5"/>
+        <circle cx="74" cy="58" r="5"/>
+      </g>
+    </symbol>
+
+    <!-- RON — trapezoid head, sleepy arc eyes, small sun (wake-up) -->
+    <symbol id="face-ron" viewBox="0 0 120 140">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="60" y1="14" x2="60" y2="24"/>
+        <path d="M 54 14 A 6 6 0 0 1 66 14"/>
+        <path d="M 26 24 L 94 24 L 102 100 L 18 100 Z"/>
+        <path d="M 38 62 Q 46 56 54 62"/>
+        <path d="M 66 62 Q 74 56 82 62"/>
+        <circle cx="60" cy="82" r="4">
+          <animate attributeName="r" values="4;4;5.8;4;4" keyTimes="0;0.4;0.55;0.7;1" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="22" y1="60" x2="14" y2="60"/>
+        <line x1="98" y1="60" x2="106" y2="60"/>
+        <g>
+          <circle cx="100" cy="36" r="5"/>
+          <line x1="100" y1="25" x2="100" y2="28"/>
+          <line x1="100" y1="44" x2="100" y2="47"/>
+          <line x1="89" y1="36" x2="92" y2="36"/>
+          <line x1="108" y1="36" x2="111" y2="36"/>
+          <animateTransform attributeName="transform" type="rotate" from="0 100 36" to="360 100 36" dur="6s" repeatCount="indefinite"/>
+        </g>
+        <line x1="50" y1="104" x2="50" y2="118"/>
+        <line x1="72" y1="104" x2="72" y2="118"/>
+        <path d="M 28 132 Q 60 120 94 132"/>
+      </g>
+    </symbol>
+
+    <!-- DANA — softer rounded head, side hair sweeps, glasses, check antenna (feminine contract reviewer) -->
+    <symbol id="face-dana" viewBox="0 0 120 140">
+      <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="60" y1="14" x2="60" y2="22"/>
+        <path d="M 55 12 L 59 16 L 66 6"/>
+        <rect x="28" y="22" width="64" height="80" rx="22" ry="24"/>
+        <path d="M 30 56 Q 18 72 24 92">
+          <animate attributeName="d"
+            values="M 30 56 Q 18 72 24 92;M 30 56 Q 18 69 23 88;M 30 56 Q 18 75 25 95;M 30 56 Q 18 72 24 92"
+            keyTimes="0;0.3;0.65;1"
+            dur="4s" repeatCount="indefinite"/>
+        </path>
+        <path d="M 90 56 Q 102 72 96 92">
+          <animate attributeName="d"
+            values="M 90 56 Q 102 72 96 92;M 90 56 Q 102 69 97 88;M 90 56 Q 102 75 95 95;M 90 56 Q 102 72 96 92"
+            keyTimes="0;0.3;0.65;1"
+            dur="4s" repeatCount="indefinite"/>
+        </path>
+        <rect x="36" y="50" width="20" height="16" rx="4"/>
+        <rect x="64" y="50" width="20" height="16" rx="4"/>
+        <line x1="56" y1="58" x2="64" y2="58"/>
+        <path d="M 52 84 Q 60 90 68 84"/>
+        <line x1="28" y1="66" x2="22" y2="66"/>
+        <line x1="92" y1="66" x2="98" y2="66"/>
+        <line x1="48" y1="106" x2="48" y2="118"/>
+        <line x1="72" y1="106" x2="72" y2="118"/>
+        <path d="M 28 132 Q 60 120 92 132"/>
+      </g>
+      <g fill="currentColor" stroke="none">
+        <circle cx="46" cy="58" r="2.5">
+          <animate attributeName="cx" values="46;49;46;43;46" keyTimes="0;0.25;0.5;0.75;1" dur="3.3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="74" cy="58" r="2.5">
+          <animate attributeName="cx" values="74;77;74;71;74" keyTimes="0;0.25;0.5;0.75;1" dur="3.3s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+    </symbol>
+
+    <!-- MLC MONOGRAM — Mark Levi Consulting -->
+    <symbol id="mlc-logo" viewBox="0 0 60 22">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 4 19 L 4 3 L 11 13 L 18 3 L 18 19"/>
+        <path d="M 24 3 L 24 19 L 36 19"/>
+        <path d="M 56 6 A 8 8 0 1 0 56 16"/>
+      </g>
+    </symbol>
+
+    <!-- SMALL UTILITY ICONS -->
+    <symbol id="ic-pencil" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 4 20 L 6 14 L 16 4 L 20 8 L 10 18 Z"/>
+        <line x1="14" y1="6" x2="18" y2="10"/>
+      </g>
+    </symbol>
+    <symbol id="ic-chat" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 4 5 L 20 5 L 20 16 L 12 16 L 8 20 L 8 16 L 4 16 Z"/>
+      </g>
+    </symbol>
+    <symbol id="ic-doc" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 6 3 L 15 3 L 19 7 L 19 21 L 6 21 Z"/>
+        <path d="M 15 3 L 15 7 L 19 7"/>
+        <line x1="9" y1="12" x2="16" y2="12"/>
+        <line x1="9" y1="16" x2="16" y2="16"/>
+      </g>
+    </symbol>
+    <symbol id="ic-whatsapp" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 3 21 L 5 15 A 9 9 0 1 1 9 19 Z"/>
+      </g>
+    </symbol>
+    <symbol id="ic-email" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="1"/>
+        <path d="M 3 7 L 12 13 L 21 7"/>
+      </g>
+    </symbol>
+    <symbol id="ic-crm" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="12" cy="5" rx="7" ry="2.5"/>
+        <path d="M 5 5 V 12 C 5 13.5 8 14.5 12 14.5 C 16 14.5 19 13.5 19 12 V 5"/>
+        <path d="M 5 12 V 19 C 5 20.5 8 21.5 12 21.5 C 16 20.5 19 20.5 19 19 V 12"/>
+      </g>
+    </symbol>
+    <symbol id="ic-phone" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="7" y="3" width="10" height="18" rx="2"/>
+        <line x1="11" y1="18" x2="13" y2="18"/>
+      </g>
+    </symbol>
+    <symbol id="ic-pin" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 12 21 C 7 15 5 12 5 9 A 7 7 0 0 1 19 9 C 19 12 17 15 12 21 Z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </g>
+    </symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 12 3 L 4 7 V 12 C 4 17 8 21 12 22 C 16 21 20 17 20 12 V 7 Z"/>
+        <path d="M 9 12 L 11 14 L 15 10"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="progress" aria-hidden="true"><i></i></div>
+
+<main class="deck" id="deck">
+
+  <!-- 0 — Cover -->
+  <section class="slide cover" data-slide>
+    <div class="slide-inner center stack">
+      <svg class="mlc-mark" aria-hidden="true"><use href="#mlc-logo"/></svg>
+      <div class="brand">Mark Levi Consulting</div>
+      <h1>AI Employees</h1>
+      <div class="tag">Internal master deck &middot; v32</div>
+    </div>
+  </section>
+
+  <!-- 1 — Hook (animated clock) -->
+  <section class="slide" data-slide>
+    <div class="slide-inner center stack">
+      <svg class="clock-anim" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">
+        <circle cx="50" cy="50" r="42" stroke-width="5"/>
+        <circle cx="50" cy="50" r="3" fill="currentColor" stroke="none"/>
+        <line x1="50" y1="50" x2="50" y2="22" stroke-width="4">
+          <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="1.2s" repeatCount="indefinite"/>
+        </line>
+        <line x1="50" y1="50" x2="50" y2="32" stroke-width="6">
+          <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="14.4s" repeatCount="indefinite"/>
+        </line>
+      </svg>
+      <p class="hook">What if your next hire cost only $500 a month and worked 24/7, without ever stopping?</p>
+    </div>
+  </section>
+
+  <!-- 2 — Problem -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <h2>Every business pays salaries for repetitive work.</h2>
+      <ul class="icon-list">
+        <li><svg class="ic-sm"><use href="#ic-pencil"/></svg><span>Writing content.</span></li>
+        <li><svg class="ic-sm"><use href="#ic-chat"/></svg><span>Following up on leads.</span></li>
+        <li><svg class="ic-sm"><use href="#ic-doc"/></svg><span>Checking contracts.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3 — An AI Employee does the same work for a fraction (Human vs AI comparison) -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <h2>An AI Employee does that same work for a fraction of the price.</h2>
+      <table class="vs">
+        <thead>
+          <tr>
+            <th class="cat"></th>
+            <th class="human">Human employee</th>
+            <th class="ai">AI Employee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="cat"><span class="cat-row"><svg class="ic-sm"><use href="#ic-pencil"/></svg><span>Content creation</span></span></td><td class="human">$2,500/mo</td><td class="ai">$500/mo</td></tr>
+          <tr><td class="cat"><span class="cat-row"><svg class="ic-sm"><use href="#ic-chat"/></svg><span>Lead follow-up</span></span></td><td class="human">$4,000/mo</td><td class="ai">$600/mo</td></tr>
+          <tr><td class="cat"><span class="cat-row"><svg class="ic-sm"><use href="#ic-doc"/></svg><span>Contract renewal</span></span></td><td class="human">$6,000/mo</td><td class="ai">$700/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4 — What an AI Employee is -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow">What an AI Employee is</div>
+      <h2>A digital worker that does one human job, start to finish, on its own.</h2>
+      <p class="body">It lives inside the tools you already use.</p>
+      <div class="platforms">
+        <div class="platform"><svg class="ic-md"><use href="#ic-whatsapp"/></svg><span>WhatsApp</span></div>
+        <div class="platform"><svg class="ic-md"><use href="#ic-email"/></svg><span>Email</span></div>
+        <div class="platform"><svg class="ic-md"><use href="#ic-crm"/></svg><span>CRM</span></div>
+      </div>
+      <p class="lead">You don&rsquo;t manage it. You talk to it.</p>
+    </div>
+  </section>
+
+  <!-- 5 — Meet Maya -->
+  <section class="slide meet" data-slide>
+    <div class="slide-inner center stack">
+      <svg class="face-lg"><use href="#face-maya"/></svg>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
+      <h1>Maya</h1>
+      <div class="role">Content Factory.</div>
+    </div>
+  </section>
+
+  <!-- 5 — Maya story -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-maya"/></svg>
+        <span class="eyebrow">Maya &middot; a little story</span>
+      </div>
+      <p class="lead">Imagine someone on your team who reads 50 sources every morning and writes 20 posts before your coffee.</p>
+      <p>She works through the night and never takes a day off.</p>
+    </div>
+  </section>
+
+  <!-- 6 — Maya proof -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-maya"/></svg>
+        <span class="eyebrow">Maya &middot; already running</span>
+      </div>
+      <h2>Maya is already running at a medical news outlet.</h2>
+      <p>She cut their content cost from $2,500 a month to $500.</p>
+    </div>
+  </section>
+
+  <!-- 7 — Maya numbers -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-maya"/></svg>
+        <span class="eyebrow">Maya &middot; the numbers</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+          <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Saves</td><td class="v">$2,000/month, proven</td></tr>
+          <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+          <tr><td class="k">Tech</td><td class="v">source scraper + AI generation + CMS <span class="placeholder">[confirm Sun]</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8 — Meet Tom -->
+  <section class="slide meet" data-slide>
+    <div class="slide-inner center stack">
+      <svg class="face-lg"><use href="#face-tom"/></svg>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
+      <h1>Tom</h1>
+      <div class="role">Lead Follow-up.</div>
+    </div>
+  </section>
+
+  <!-- 9 — Tom story -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-tom"/></svg>
+        <span class="eyebrow">Tom &middot; a little story</span>
+      </div>
+      <p class="lead">A lead fills your form. 30 seconds later they get a personal WhatsApp.</p>
+      <p>By the time your salesman calls, they already know the name. The call connects far more often.</p>
+    </div>
+  </section>
+
+  <!-- 10 — Tom proof -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-tom"/></svg>
+        <span class="eyebrow">Tom &middot; already running</span>
+      </div>
+      <h2>Tom is already running at a 13-agent real estate brokerage in Miami.</h2>
+      <div class="platforms">
+        <div class="platform"><svg class="ic-md"><use href="#ic-pin"/></svg><span>Miami, FL</span></div>
+        <div class="platform"><svg class="ic-md"><use href="#ic-whatsapp"/></svg><span>WhatsApp</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 — Tom numbers -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-tom"/></svg>
+        <span class="eyebrow">Tom &middot; the numbers</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+          <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Earns</td><td class="v">faster response = more closed deals</td></tr>
+          <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+          <tr><td class="k">Tech</td><td class="v">CRM + WhatsApp (WATI) + email (Mandrill) + approval <span class="placeholder">[confirm Sun]</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 12 — Meet Ron -->
+  <section class="slide meet" data-slide>
+    <div class="slide-inner center stack">
+      <svg class="face-lg"><use href="#face-ron"/></svg>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
+      <h1>Ron</h1>
+      <div class="role">Lead Wake-up.</div>
+    </div>
+  </section>
+
+  <!-- 13 — Ron story -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-ron"/></svg>
+        <span class="eyebrow">Ron &middot; a little story</span>
+      </div>
+      <p class="lead">Think about your dead leads from two years ago. The ones nobody called back.</p>
+      <p>While you sleep, Ron picks the warmest and starts a conversation.</p>
+    </div>
+  </section>
+
+  <!-- 14 — Ron numbers -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-ron"/></svg>
+        <span class="eyebrow">Ron &middot; the numbers</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+          <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Earns</td><td class="v">recovered revenue from dead pipeline</td></tr>
+          <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+          <tr><td class="k">Tech</td><td class="v">CRM + scoring + WhatsApp/email + approval <span class="placeholder">[confirm Sun]</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 15 — Meet Dana -->
+  <section class="slide meet" data-slide>
+    <div class="slide-inner center stack">
+      <svg class="face-lg"><use href="#face-dana"/></svg>
+      <div class="eyebrow">AI Employee &middot; Meet</div>
+      <h1>Dana</h1>
+      <div class="role">Contract Renewal.</div>
+    </div>
+  </section>
+
+  <!-- 16 — Dana story -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-dana"/></svg>
+        <span class="eyebrow">Dana &middot; a little story</span>
+      </div>
+      <p class="lead">You have hundreds of contracts. Vendors, clients, subscriptions. One slips past its renewal date and quietly costs you real money.</p>
+      <p>Dana watches every one and warns you 60 days out, before the trap closes.</p>
+    </div>
+  </section>
+
+  <!-- 17 — Dana depth -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-dana"/></svg>
+        <span class="eyebrow">Dana &middot; how she works</span>
+      </div>
+      <h2>Dana knows each contract&rsquo;s terms, its renewal date, and the auto-renewal clauses hiding inside.</h2>
+      <p>She pings the right person with everything they need to act.</p>
+    </div>
+  </section>
+
+  <!-- 18 — Dana numbers -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow-row">
+        <svg class="face-mini"><use href="#face-dana"/></svg>
+        <span class="eyebrow">Dana &middot; the numbers</span>
+      </div>
+      <table>
+        <tbody>
+          <tr><td class="k">Build (client price)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+          <tr><td class="k">Run &mdash; systems (fixed)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Run &mdash; tokens (variable)</td><td class="v"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="k">Saves</td><td class="v">hundreds of thousands in avoidable losses</td></tr>
+          <tr><td class="k">Build time</td><td class="v"><span class="placeholder">[PLACEHOLDER]</span></td></tr>
+          <tr><td class="k">Tech</td><td class="v">document store + contract parsing + WhatsApp/email alerts + approval <span class="placeholder">[confirm Sun]</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 19 — Like a real hire (the four together) -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <h2>Every AI Employee works like a real hire.</h2>
+      <div class="family">
+        <div class="family-item"><svg class="face-sm"><use href="#face-maya"/></svg><div class="name">Maya</div></div>
+        <div class="family-item"><svg class="face-sm"><use href="#face-tom"/></svg><div class="name">Tom</div></div>
+        <div class="family-item"><svg class="face-sm"><use href="#face-ron"/></svg><div class="name">Ron</div></div>
+        <div class="family-item"><svg class="face-sm"><use href="#face-dana"/></svg><div class="name">Dana</div></div>
+      </div>
+      <p>Each one works inside your existing tools, on your terms, on your timeline.</p>
+      <p>Same as any employee you bring on. You onboard it, you teach it, you pay it, and it does the work, start to finish.</p>
+    </div>
+  </section>
+
+  <!-- 20 — How we build it -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow">How we build it</div>
+      <ol class="steps">
+        <li><div class="num">1</div><div class="name">Discovery &amp; quote</div><div class="desc">Short call. We map the work, give a fixed price.</div></li>
+        <li><div class="num">2</div><div class="name">Build</div><div class="desc">2&ndash;4 weeks. We build, connect, train it on your data.</div></li>
+        <li><div class="num">3</div><div class="name">Stabilize</div><div class="desc">Goes live. We stay close 30 days, fix against real use.</div></li>
+        <li><div class="num">4</div><div class="name">Run</div><div class="desc">You use it like any team member. We step back.</div></li>
+        <li><div class="num">5</div><div class="name">Maintain</div><div class="desc">We keep it running, or teach your team to.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Security & compliance -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow">Security &amp; compliance</div>
+      <h2>Compliant by default. Deployable your way.</h2>
+      <div class="badges">
+        <div class="badge">SOC&nbsp;2 Type&nbsp;II</div>
+        <div class="badge">GDPR</div>
+        <div class="badge">ISO/IEC&nbsp;42001</div>
+        <div class="badge">NIST&nbsp;AI&nbsp;RMF</div>
+        <div class="badge">EU&nbsp;AI&nbsp;Act</div>
+        <div class="badge">ISO/IEC&nbsp;27001</div>
+        <div class="badge">HIPAA</div>
+        <div class="badge">PCI&#8209;DSS</div>
+      </div>
+      <div class="deploy">
+        <div class="deploy-item">
+          <div class="deploy-label">Public Cloud</div>
+          <div class="deploy-text">Scalable. Encrypted in transit and at rest. Hypervisor isolation under a shared-responsibility model.</div>
+        </div>
+        <div class="deploy-item">
+          <div class="deploy-label">Private Cloud</div>
+          <div class="deploy-text">Dedicated, single-tenant infrastructure. Stricter network controls and custom governance.</div>
+        </div>
+        <div class="deploy-item">
+          <div class="deploy-label">On-Premises</div>
+          <div class="deploy-text">Total physical control. Hardened data centres, air-gapped systems, absolute data sovereignty.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21 — Costs -->
+  <section class="slide wide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow">Costs</div>
+      <table>
+        <tbody>
+          <tr><td class="stage">Discovery</td><td class="desc">We map your workflow and come back with a fixed quote.</td><td class="price"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+          <tr><td class="stage">Build</td><td class="desc">Design, build, connect, train. One-time.</td><td class="price"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+          <tr><td class="stage">Stabilize</td><td class="desc">30 days live, we stay close and fix against real use.</td><td class="price"><span class="placeholder">[PLACEHOLDER &#8362;]</span></td></tr>
+          <tr><td class="stage">Running &mdash; systems</td><td class="desc">Platform, WhatsApp, email, infrastructure. Fixed every month, for years.</td><td class="price"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+          <tr><td class="stage">Running &mdash; tokens</td><td class="desc">What the AI burns as it works. You use more, you pay more.</td><td class="price"><span class="placeholder">[PLACEHOLDER &#8362;/mo]</span></td></tr>
+        </tbody>
+      </table>
+      <div class="cost-notes">
+        <div>
+          <div class="cn-label">Pay once</div>
+          <div class="cn-text">Discovery and Build are one-time. You never see them again.</div>
+        </div>
+        <div>
+          <div class="cn-label">Fixed monthly</div>
+          <div class="cn-text">Systems is a locked monthly rate. It won&rsquo;t grow.</div>
+        </div>
+        <div>
+          <div class="cn-label">You control</div>
+          <div class="cn-text">Tokens scale with use. You decide how much it runs.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22 — Why now (animated hourglass) -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow">Why now</div>
+      <svg class="hg-anim" viewBox="0 0 24 30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <g>
+          <line x1="6" y1="3" x2="18" y2="3"/>
+          <line x1="6" y1="27" x2="18" y2="27"/>
+          <path d="M 6 3 L 6 7 L 11 14 L 11 16 L 6 23 L 6 27"/>
+          <path d="M 18 3 L 18 7 L 13 14 L 13 16 L 18 23 L 18 27"/>
+          <path d="M 7 7 L 17 7 L 12 13 Z" fill="currentColor" stroke="none"/>
+          <animateTransform attributeName="transform" type="rotate"
+            dur="5s"
+            repeatCount="indefinite"
+            calcMode="spline"
+            keySplines="0 0 0 0; 0.65 0 0.35 1; 0 0 0 0; 0.65 0 0.35 1"
+            keyTimes="0; 0.4; 0.5; 0.9; 1"
+            values="0 12 15; 0 12 15; 180 12 15; 180 12 15; 360 12 15"/>
+        </g>
+      </svg>
+      <h2>Your competitors are already doing this.</h2>
+      <p>Right now, companies your size and much bigger are putting AI Employees to work. Every month you wait, they get further ahead. The time to start is now.</p>
+    </div>
+  </section>
+
+  <!-- 23 — Close -->
+  <section class="slide close" data-slide>
+    <div class="slide-inner center stack">
+      <h2>Your first AI Employee can be live in 30 days.</h2>
+      <p class="lead">Call me.</p>
+      <div>
+        <a class="cta-phone" href="tel:+972528834558" aria-label="Call Mark Levi at +972 52 883 4558">
+          <svg aria-hidden="true"><use href="#ic-phone"/></svg>
+          <span>+972&#8209;52&#8209;883&#8209;4558</span>
+        </a>
+      </div>
+      <svg class="mlc-mark" aria-hidden="true" style="margin-top: clamp(40px, 6vw, 80px);"><use href="#mlc-logo"/></svg>
+      <div class="brand-line">Mark Levi Consulting</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="nav-zone prev" data-nav="prev" aria-hidden="true"></div>
+<div class="nav-zone next" data-nav="next" aria-hidden="true"></div>
+
+<div class="counter"><span id="cur">1</span> <span class="dim">/</span> <span id="tot">1</span></div>
+<div class="help"><kbd>&larr;</kbd><kbd>&rarr;</kbd> navigate &nbsp;&middot;&nbsp; <kbd>F</kbd> fullscreen</div>
+
+<script>
+  (function () {
+    const slides = Array.from(document.querySelectorAll('[data-slide]'));
+    const total = slides.length;
+    const curEl = document.getElementById('cur');
+    const totEl = document.getElementById('tot');
+    const bar = document.querySelector('.progress > i');
+    let idx = 0;
+    totEl.textContent = total;
+
+    function render() {
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      curEl.textContent = idx + 1;
+      bar.style.width = ((idx + 1) / total * 100) + '%';
+      const hash = '#' + (idx + 1);
+      if (location.hash !== hash) history.replaceState(null, '', hash);
+    }
+    function go(n) { idx = Math.max(0, Math.min(total - 1, n)); render(); }
+    function next() { go(idx + 1); }
+    function prev() { go(idx - 1); }
+
+    document.addEventListener('keydown', e => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'PageDown':
+        case ' ':
+          e.preventDefault(); next(); break;
+        case 'ArrowLeft':
+        case 'PageUp':
+          e.preventDefault(); prev(); break;
+        case 'Home': go(0); break;
+        case 'End': go(total - 1); break;
+        case 'f':
+        case 'F':
+          if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+          else document.exitFullscreen?.();
+          break;
+      }
+    });
+
+    document.querySelectorAll('[data-nav]').forEach(el => {
+      el.addEventListener('click', () => el.dataset.nav === 'next' ? next() : prev());
+    });
+
+    let touchX = null;
+    document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', e => {
+      if (touchX == null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) (dx < 0 ? next : prev)();
+      touchX = null;
+    }, { passive: true });
+
+    window.addEventListener('hashchange', () => {
+      const n = parseInt((location.hash || '#1').slice(1), 10);
+      if (!isNaN(n)) go(n - 1);
+    });
+
+    const initial = parseInt((location.hash || '#1').slice(1), 10);
+    go(isNaN(initial) ? 0 : initial - 1);
+  })();
+</script>
+</body>
+</html>
