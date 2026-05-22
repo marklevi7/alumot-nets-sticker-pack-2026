@@ -376,6 +376,8 @@
   }
   table.vs td.human { color: var(--dim); text-align: right; text-decoration: line-through; text-decoration-thickness: 1px; }
   table.vs td.ai    { color: var(--text); font-weight: 600; text-align: right; padding-right: 0; }
+  table.vs .cat-row { display: inline-flex; align-items: center; gap: clamp(10px, 1.2vw, 16px); }
+  table.vs .cat-row .ic-sm { color: var(--soft); }
   @media (max-width: 560px) {
     table.vs td, table.vs th { font-size: 14px; padding: 12px 8px; }
     table.vs th { font-size: 10px; letter-spacing: 0.15em; }
@@ -468,6 +470,56 @@
   @media (max-width: 640px) {
     .help { display: none; }
     .counter { bottom: 14px; right: 16px; }
+
+    /* Brighter, thicker progress bar on mobile */
+    .progress { height: 3px; }
+    .progress > i { background: var(--dim); }
+
+    /* More air between stacked elements */
+    .stack > * + * { margin-top: clamp(18px, 3.6vw, 26px); }
+
+    /* Slightly tighter content padding so titles breathe but content uses width */
+    .slide { padding-left: 22px; padding-right: 22px; padding-top: clamp(64px, 10vh, 110px); }
+
+    /* Smaller Meet face on phones so the name dominates */
+    .face-lg { width: clamp(108px, 30vw, 160px); margin-bottom: clamp(14px, 2.6vw, 22px); }
+    .meet h1 { font-size: clamp(64px, 17vw, 110px); }
+    .meet .role { font-size: clamp(17px, 4.4vw, 24px); }
+
+    /* Family row becomes a 2x2 grid */
+    .family {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(22px, 5vw, 32px) clamp(28px, 7vw, 44px);
+      justify-items: center;
+      align-items: end;
+    }
+    .face-sm { width: clamp(86px, 22vw, 120px); }
+
+    /* Eyebrow + mini-head row sits tighter */
+    .eyebrow-row { gap: 10px; }
+    .face-mini { width: clamp(34px, 9vw, 46px); }
+
+    /* Hook copy reads better with one less line break */
+    .hook { font-size: clamp(26px, 7.2vw, 40px); max-width: 18ch; }
+
+    /* Cost-table rows stack the description below the stage+price on phones */
+    .slide.wide tr:has(td.stage) {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      column-gap: 14px;
+      row-gap: 4px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+    .slide.wide tr:has(td.stage):first-child { border-top: 0; }
+    .slide.wide tr:has(td.stage) td { padding: 0; border: 0; width: auto; }
+    .slide.wide td.stage { grid-column: 1; grid-row: 1; font-size: 16px; }
+    .slide.wide td.price { grid-column: 2; grid-row: 1; font-size: 15px; }
+    .slide.wide td.desc  { grid-column: 1 / -1; grid-row: 2; font-size: 13px; line-height: 1.45; color: var(--muted); }
+
+    /* Closing CTA: a little less air to keep it on one screen */
+    .close .cta-phone { padding: 16px 22px; font-size: 20px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .slide, .progress > i { transition: none; }
@@ -689,7 +741,7 @@
           <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="14.4s" repeatCount="indefinite"/>
         </line>
       </svg>
-      <p class="hook">What if your next hire cost $500 a month and worked 24/7, without ever stopping?</p>
+      <p class="hook">What if your next hire cost only $500 a month and worked 24/7, without ever stopping?</p>
     </div>
   </section>
 
@@ -718,9 +770,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td class="cat">Content creation</td><td class="human">$2,500/mo</td><td class="ai">$500/mo</td></tr>
-          <tr><td class="cat">Lead follow-up</td><td class="human">$4,000/mo</td><td class="ai">$600/mo</td></tr>
-          <tr><td class="cat">Contract renewal</td><td class="human">$6,000/mo</td><td class="ai">$700/mo</td></tr>
+          <tr><td class="cat"><span class="cat-row"><svg class="ic-sm"><use href="#ic-pencil"/></svg><span>Content creation</span></span></td><td class="human">$2,500/mo</td><td class="ai">$500/mo</td></tr>
+          <tr><td class="cat"><span class="cat-row"><svg class="ic-sm"><use href="#ic-chat"/></svg><span>Lead follow-up</span></span></td><td class="human">$4,000/mo</td><td class="ai">$600/mo</td></tr>
+          <tr><td class="cat"><span class="cat-row"><svg class="ic-sm"><use href="#ic-doc"/></svg><span>Contract renewal</span></span></td><td class="human">$6,000/mo</td><td class="ai">$700/mo</td></tr>
         </tbody>
       </table>
     </div>
@@ -1017,31 +1069,13 @@
           <line x1="6" y1="27" x2="18" y2="27"/>
           <path d="M 6 3 L 6 7 L 11 14 L 11 16 L 6 23 L 6 27"/>
           <path d="M 18 3 L 18 7 L 13 14 L 13 16 L 18 23 L 18 27"/>
-          <path fill="currentColor" stroke="none">
-            <animate attributeName="d"
-              dur="6s"
-              repeatCount="indefinite"
-              keyTimes="0; 0.42; 0.5; 0.92; 1"
-              values="M 7 7 L 17 7 L 12 13 Z;M 12 13 L 12 13 L 12 13 Z;M 12 13 L 12 13 L 12 13 Z;M 7 7 L 17 7 L 12 13 Z;M 7 7 L 17 7 L 12 13 Z"/>
-          </path>
-          <path fill="currentColor" stroke="none">
-            <animate attributeName="d"
-              dur="6s"
-              repeatCount="indefinite"
-              keyTimes="0; 0.42; 0.5; 0.92; 1"
-              values="M 12 17 L 12 17 L 12 17 Z;M 7 23 L 17 23 L 12 17 Z;M 7 23 L 17 23 L 12 17 Z;M 12 17 L 12 17 L 12 17 Z;M 12 17 L 12 17 L 12 17 Z"/>
-          </path>
-          <line x1="12" y1="14" x2="12" y2="20" stroke-width="0.9">
-            <animate attributeName="opacity"
-              dur="6s"
-              repeatCount="indefinite"
-              keyTimes="0; 0.02; 0.42; 0.44; 0.5; 0.52; 0.92; 0.94; 1"
-              values="0; 1; 1; 0; 0; 1; 1; 0; 0"/>
-          </line>
+          <path d="M 7 7 L 17 7 L 12 13 Z" fill="currentColor" stroke="none"/>
           <animateTransform attributeName="transform" type="rotate"
-            dur="6s"
+            dur="5s"
             repeatCount="indefinite"
-            keyTimes="0; 0.42; 0.5; 0.92; 1"
+            calcMode="spline"
+            keySplines="0 0 0 0; 0.65 0 0.35 1; 0 0 0 0; 0.65 0 0.35 1"
+            keyTimes="0; 0.4; 0.5; 0.9; 1"
             values="0 12 15; 0 12 15; 180 12 15; 180 12 15; 360 12 15"/>
         </g>
       </svg>
@@ -1053,7 +1087,6 @@
   <!-- 23 — Close -->
   <section class="slide close" data-slide>
     <div class="slide-inner center stack">
-      <div class="eyebrow">Let&rsquo;s build your first one</div>
       <h2>Your first AI Employee can be live in 30 days.</h2>
       <p class="lead">Call me.</p>
       <div>
