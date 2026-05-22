@@ -383,6 +383,32 @@
     table.vs th { font-size: 10px; letter-spacing: 0.15em; }
   }
 
+  /* COMPLIANCE BADGES */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(12px, 1.6vw, 18px);
+    margin-top: clamp(8px, 1.2vw, 14px);
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(8px, 1vw, 12px);
+    padding: clamp(10px, 1.2vw, 14px) clamp(16px, 1.8vw, 22px);
+    border: 1px solid var(--line-2);
+    border-radius: clamp(10px, 1vw, 14px);
+    color: var(--text);
+    font-size: clamp(14px, 1.5vw, 19px);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .badge svg {
+    width: clamp(18px, 1.8vw, 24px);
+    height: clamp(18px, 1.8vw, 24px);
+    color: var(--soft);
+    flex-shrink: 0;
+  }
+
   /* COST NOTES (three-column clarifier) */
   .cost-notes {
     display: grid;
@@ -711,6 +737,12 @@
         <circle cx="12" cy="9" r="2.5"/>
       </g>
     </symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 12 3 L 4 7 V 12 C 4 17 8 21 12 22 C 16 21 20 17 20 12 V 7 Z"/>
+        <path d="M 9 12 L 11 14 L 15 10"/>
+      </g>
+    </symbol>
   </defs>
 </svg>
 
@@ -1026,6 +1058,21 @@
         <li><div class="num">4</div><div class="name">Run</div><div class="desc">You use it like any team member. We step back.</div></li>
         <li><div class="num">5</div><div class="name">Maintain</div><div class="desc">We keep it running, or teach your team to.</div></li>
       </ol>
+    </div>
+  </section>
+
+  <!-- Security & compliance — placeholder list -->
+  <section class="slide" data-slide>
+    <div class="slide-inner stack">
+      <div class="eyebrow">Security &amp; compliance</div>
+      <h2>Built on the highest level of cybersecurity and compliance.</h2>
+      <p>Your data, your clients&rsquo; data, your contracts &mdash; held to enterprise-grade standards from day one. Audited, encrypted, accountable.</p>
+      <div class="badges">
+        <div class="badge"><svg><use href="#ic-shield"/></svg><span>SOC&nbsp;2 Type&nbsp;II</span></div>
+        <div class="badge"><svg><use href="#ic-shield"/></svg><span>GDPR</span></div>
+        <div class="badge"><svg><use href="#ic-shield"/></svg><span>ISO&nbsp;27001</span></div>
+        <div class="badge"><svg><use href="#ic-shield"/></svg><span>HIPAA</span></div>
+      </div>
     </div>
   </section>
 
